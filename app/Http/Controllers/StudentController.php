@@ -20,20 +20,18 @@ class StudentController extends Controller
     }
 
     public function store(Request $request)
-{
-    $validated = $request->validate([
-        'title' => 'required|string|min:10|max:200',
-        'description' => 'required|string|min:50|max:2000',
-        'advisor' => 'required|string|max:100',
-        'career' => 'required|string|max:100',
-        'year' => 'required|integer|min:2000|max:' . (date('Y') + 1),
-        'keywords' => 'nullable|string|max:200',
-        'defense_date' => 'nullable|date',
-        'file' => 'required|file|mimes:pdf,doc,docx|max:20480', // 20MB
-    ], [
-        'file.max' => 'El archivo no debe ser mayor a 20MB.',
-        'file.mimes' => 'El archivo debe ser PDF, DOC o DOCX.',
-    ]);
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'advisor' => 'required|string|max:255',
+            'career' => 'required|string|max:255',
+            'year' => 'required|integer|min:2000|max:' . (date('Y') + 1),
+            'keywords' => 'nullable|string',
+            'defense_date' => 'nullable|date',
+            'file' => 'required|file|mimes:pdf,doc,docx|max:10240',
+        ]);
+
         $filePath = $request->file('file')->store('graduation_projects', 'public');
 
         GraduationProject::create([

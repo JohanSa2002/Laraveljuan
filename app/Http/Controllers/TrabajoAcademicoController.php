@@ -41,11 +41,25 @@ class TrabajoAcademicoController extends Controller
             'asesor' => 'nullable|string|max:255',
             'estado' => 'required|in:en_revision,aceptado_revision,aprobado',
             'lugar'  => 'required|string|max:255',
-            'pdf'    => 'required|file|mimes:pdf|max:20480', // 20 MB
+
+            // VALIDACIÓN DEL PDF + VALIDACIÓN DEL NOMBRE DEL ARCHIVO
+            'pdf' => [
+                'required',
+                'file',
+                'mimes:pdf',
+                'max:20480', // 20 MB
+                function ($attribute, $value, $fail) {
+                    if ($value && strlen($value->getClientOriginalName()) > 80) {
+                        $fail('El nombre del archivo no puede tener más de 80 caracteres.');
+                    }
+                },
+            ],
         ]);
 
+        // GUARDAR ARCHIVO
         $path = $request->file('pdf')->store('trabajos', 'public');
 
+        // CREAR REGISTRO
         TrabajoAcademico::create([
             'user_id'  => Auth::id(),
             'titulo'   => $request->titulo,

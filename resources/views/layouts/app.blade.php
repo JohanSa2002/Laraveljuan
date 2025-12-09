@@ -1,114 +1,118 @@
 <!DOCTYPE html>
-<<<<<<< HEAD
-<html lang="es" x-data="{ darkMode: localStorage.getItem('darkMode') === 'true' }" x-init="$watch('darkMode', val => localStorage.setItem('darkMode', val))" :class="{ 'dark': darkMode }">
+<html lang="es" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Trabajos de Graduación GIISA')</title>
+    <title>@yield('title', 'Sistema de Trabajos de Graduación')</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            bg: '#0f172a',
+                            card: '#1e293b',
+                            hover: '#334155',
+                            border: '#475569'
+                        }
+                    }
+                }
+            }
         }
     </script>
 </head>
-<body class="bg-gray-100 dark:bg-gray-900 transition-colors duration-200">
-    <nav class="bg-blue-600 dark:bg-gray-800 text-white shadow-lg transition-colors duration-200">
-        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <h1 class="text-2xl font-bold">Trabajos de Graduación GIISA</h1>
-            @auth
-                <div class="flex items-center gap-4">
-                    <!-- Toggle Modo Oscuro -->
-                    <button @click="darkMode = !darkMode" class="p-2 rounded-lg hover:bg-blue-500 dark:hover:bg-gray-700 transition-colors">
-                        <svg x-show="!darkMode" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+<body class="bg-gray-50 dark:bg-dark-bg text-gray-900 dark:text-gray-100 min-h-screen transition-colors duration-200">
+    <nav class="bg-white dark:bg-dark-card shadow-lg border-b border-gray-200 dark:border-gray-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <h1 class="text-xl font-bold text-gray-900 dark:text-white">Trabajos de Graduación GIISA</h1>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <!-- Toggle Dark Mode -->
+                    <button id="theme-toggle" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-hover transition">
+                        <svg id="theme-toggle-dark-icon" class="w-5 h-5 hidden text-gray-700 dark:text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
                         </svg>
-                        <svg x-show="darkMode" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                        <svg id="theme-toggle-light-icon" class="w-5 h-5 text-gray-700 dark:text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
                         </svg>
                     </button>
 
-                    <span class="dark:text-gray-300">{{ auth()->user()->name }}</span>
-                    <span class="text-sm bg-blue-500 dark:bg-gray-700 px-2 py-1 rounded">
-                        {{ auth()->user()->isAdmin() ? 'Administrador' : 'Estudiante' }}
-                    </span>
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit" class="bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700 px-4 py-2 rounded transition-colors">
-                            Cerrar Sesión
-                        </button>
-                    </form>
+                    @auth
+                        <span class="text-gray-700 dark:text-gray-300">{{ auth()->user()->name }}</span>
+                        @if(auth()->user()->isAdmin())
+                            <span class="bg-purple-600 text-white px-2 py-1 rounded text-sm">Administrador</span>
+                        @else
+                            <span class="bg-blue-600 text-white px-2 py-1 rounded text-sm">Estudiante</span>
+                        @endif
+                        <form action="{{ route('logout') }}" method="POST" class="inline">
+                            @csrf
+                            <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded transition">
+                                Cerrar Sesión
+                            </button>
+                        </form>
+                    @endauth
                 </div>
-            @endauth
+            </div>
         </div>
     </nav>
 
-    <main class="container mx-auto px-4 py-8">
+    <main class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
         @if(session('success'))
-            <div class="bg-green-100 dark:bg-green-900 border border-green-400 dark:border-green-600 text-green-700 dark:text-green-200 px-4 py-3 rounded mb-4">
+            <div class="bg-green-500 dark:bg-green-600 text-white px-6 py-4 rounded-lg mb-6 shadow">
                 {{ session('success') }}
             </div>
         @endif
 
-        @if($errors->any())
-            <div class="bg-red-100 dark:bg-red-900 border border-red-400 dark:border-red-600 text-red-700 dark:text-red-200 px-4 py-3 rounded mb-4">
-                <ul>
-                    @foreach($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
+        @if(session('error'))
+            <div class="bg-red-500 dark:bg-red-600 text-white px-6 py-4 rounded-lg mb-6 shadow">
+                {{ session('error') }}
             </div>
         @endif
 
         @yield('content')
     </main>
+
+    <script>
+        // Dark mode toggle con persistencia
+        const themeToggle = document.getElementById('theme-toggle');
+        const darkIcon = document.getElementById('theme-toggle-dark-icon');
+        const lightIcon = document.getElementById('theme-toggle-light-icon');
+        const html = document.documentElement;
+
+        // Función para actualizar iconos
+        function updateIcons(isDark) {
+            if (isDark) {
+                darkIcon.classList.add('hidden');
+                lightIcon.classList.remove('hidden');
+            } else {
+                darkIcon.classList.remove('hidden');
+                lightIcon.classList.add('hidden');
+            }
+        }
+
+        // Inicializar tema desde localStorage o preferencia del sistema
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
+
+        if (initialTheme === 'dark') {
+            html.classList.add('dark');
+        } else {
+            html.classList.remove('dark');
+        }
+        updateIcons(initialTheme === 'dark');
+
+        // Toggle theme
+        themeToggle.addEventListener('click', () => {
+            const isDark = html.classList.toggle('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            updateIcons(isDark);
+        });
+    </script>
 </body>
 </html>
-=======
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
-
-        <title>{{ config('app.name', 'Laravel') }}</title>
-
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-            @include('layouts.navigation')
-
-            <!-- Page Heading -->
-            @isset($header)
-                <header class="bg-white dark:bg-gray-800 shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-                        <div>
-                            {{ $header }}
-                        </div>
-
-                        <a href="{{ url()->previous() }}"
-                           class="inline-flex items-center px-3 py-2 rounded-md text-xs font-semibold
-                                  bg-gray-700 text-white hover:bg-gray-800
-                                  dark:bg-gray-600 dark:hover:bg-gray-500
-                                  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            Volver
-                        </a>
-                    </div>
-                </header>
-            @endisset
-
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
-        </div>
-    </body>
-</html>
->>>>>>> ef9f940bf4530f334665541a23c94f431fa3ddb1
