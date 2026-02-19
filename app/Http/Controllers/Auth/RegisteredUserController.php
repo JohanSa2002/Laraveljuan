@@ -31,13 +31,19 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'cedula' => ['required', 'string', 'max:20', 'unique:' . User::class],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
+            'institutional_email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
+            'role' => ['required', 'string', 'in:advisor,student'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
         $user = User::create([
             'name' => $request->name,
+            'cedula' => $request->cedula,
             'email' => $request->email,
+            'institutional_email' => $request->institutional_email,
+            'is_advisor' => $request->role === 'advisor',
             'password' => Hash::make($request->password),
         ]);
 

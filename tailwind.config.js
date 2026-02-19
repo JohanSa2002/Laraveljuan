@@ -11,11 +11,34 @@ export default {
 
     theme: {
         extend: {
-            fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+            colors: {
+                'cyber-purple': {
+                    50: '#f5f0ff',
+                    100: '#ede4ff',
+                    200: '#dcc9ff',
+                    300: '#c1a1ff',
+                    400: '#a36dff',
+                    500: '#8c2bee',
+                    600: '#7a1cd1',
+                    700: '#6616ad',
+                    800: '#55158c',
+                    900: '#471374',
+                },
+                'cyber-dark': {
+                    900: '#0f0a1a',
+                    800: '#1a132e',
+                    700: '#2a1e4a',
+                }
             },
+            fontFamily: {
+                sans: ['Inter', 'Space Grotesk', 'sans-serif'],
+            },
+            backdropBlur: {
+                'xs': '2px',
+            }
         },
     },
-
-    plugins: [forms],
+    plugins: [
+        require('@tailwindcss/forms'),
+    ],
 };

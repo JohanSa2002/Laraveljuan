@@ -1,3 +1,39 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .glass-card {
+        @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-xl;
+    }
+
+    .glass-card-dark {
+        @apply bg-cyber-dark-800/60 backdrop-blur-lg border border-white/10 shadow-2xl;
+    }
+
+    .cyber-gradient-bg {
+        background: radial-gradient(circle at top left, #f5f0ff, #ffffff),
+                    radial-gradient(circle at bottom right, #ede4ff, #ffffff);
+    }
+
+    .cyber-gradient-dark {
+        background: radial-gradient(circle at top left, #1a132e, #0f0a1a),
+                    radial-gradient(circle at bottom right, #2a1e4a, #0f0a1a);
+    }
+
+    .tech-gradient-text {
+        @apply bg-clip-text text-transparent bg-gradient-to-r from-cyber-purple-500 to-indigo-600;
+    }
+
+    .glow-purple {
+        box-shadow: 0 0 15px rgba(140, 43, 238, 0.3);
+    }
+
+    .glow-border-purple {
+        @apply border-cyber-purple-400/50 focus:border-cyber-purple-500 focus:ring-cyber-purple-500/30;
+    }
+}
+
+body {
+    @apply font-sans antialiased text-gray-900 cyber-gradient-bg min-h-screen;
+}

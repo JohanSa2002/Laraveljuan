@@ -1,36 +1,33 @@
 <?php
 
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\StudentController;
-use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return redirect('/login');
+    return view('welcome');
 });
 
-Route::middleware('guest')->group(function () {
-    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-    Route::post('/login', [AuthController::class, 'login']);
-    Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
-    Route::post('/register', [AuthController::class, 'register']);
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::resource('articles', \App\Http\Controllers\ArticleController::class);
+    Route::patch('articles/{article}/evaluate', [\App\Http\Controllers\ArticleController::class, 'evaluate'])->name('articles.evaluate');
+
+    // Public Profiles
+    Route::post('/profile/search', [\App\Http\Controllers\PublicProfileController::class, 'search'])->name('profile.search');
+    Route::get('/profile/view/{id}', [\App\Http\Controllers\PublicProfileController::class, 'show'])->name('profile.public.show');
+
+    // Admin Routes
+    Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
+        Route::get('/users', [\App\Http\Controllers\AdminController::class, 'users'])->name('users');
+        Route::get('/articles', [\App\Http\Controllers\AdminController::class, 'articles'])->name('articles');
+    });
 });
 
-Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
-
-Route::middleware(['auth'])->prefix('student')->group(function () {
-    Route::get('/dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard');
-    Route::get('/projects/create', [StudentController::class, 'create'])->name('student.projects.create');
-    Route::post('/projects', [StudentController::class, 'store'])->name('student.projects.store');
-    Route::get('/projects/{project}', [StudentController::class, 'show'])->name('student.projects.show');
-    Route::get('/projects/{project}/edit', [StudentController::class, 'edit'])->name('student.projects.edit');
-    Route::put('/projects/{project}', [StudentController::class, 'update'])->name('student.projects.update');
-});
-
-Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
-    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-    Route::get('/projects/{project}', [AdminController::class, 'show'])->name('admin.projects.show');
-    Route::put('/projects/{project}/status', [AdminController::class, 'updateStatus'])->name('admin.projects.updateStatus');
-    Route::get('/students', [AdminController::class, 'students'])->name('admin.students');
-    Route::get('/search', [AdminController::class, 'search'])->name('admin.search');
-});
+require __DIR__ . '/auth.php';
