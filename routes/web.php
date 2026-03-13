@@ -4,7 +4,12 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    $publishedArticles = \App\Models\Article::with('student', 'advisor')
+        ->where('status', 'approved')
+        ->latest()
+        ->take(6)
+        ->get();
+    return view('welcome', compact('publishedArticles'));
 });
 
 Route::get('/dashboard', function () {

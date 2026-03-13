@@ -1,0 +1,42 @@
+[
+    {
+        "name": "Admin UTP",
+        "email": "admin@utp.ac.pa",
+        "password": "$2y$12$bkJaZRsjMQWeJSHZg8lAZePjELVV0Wd3K7NXA9mF83vXdrgNOUrY."
+    },
+    {
+        "name": "Asesor Acad\u00e9mico",
+        "email": "asesor@utp.ac.pa",
+        "password": "$2y$12$M.VfhhvJROq\/3Nj9VGNuwOsyJXvwKqXAoaECM.7IU6gqe.fTVD7KK"
+    },
+    {
+        "name": "Estudiante UTP",
+        "email": "estudiante@utp.ac.pa",
+        "password": "$2y$12$V.XKVowpQ\/Q0m3THKslqMutGIje\/a7dO1.KLB758C588qOdx1QH82"
+    },
+    {
+        "name": "Mr. Wyman Bins PhD",
+        "email": "lynch.alysha@example.org",
+        "password": "$2y$12$jzdTT8OZlCeNHCCZVsfUl.x4iry7RlOdllrxGHBcVY33VKoUembfW"
+    },
+    {
+        "name": "Dr. Mckayla Thiel Jr.",
+        "email": "ykrajcik@example.net",
+        "password": "$2y$12$jzdTT8OZlCeNHCCZVsfUl.x4iry7RlOdllrxGHBcVY33VKoUembfW"
+    },
+    {
+        "name": "Mr. Murphy Bechtelar I",
+        "email": "jeff.jenkins@example.com",
+        "password": "$2y$12$jzdTT8OZlCeNHCCZVsfUl.x4iry7RlOdllrxGHBcVY33VKoUembfW"
+    },
+    {
+        "name": "Maurice Bernhard",
+        "email": "ena.kilback@example.com",
+        "password": "$2y$12$jzdTT8OZlCeNHCCZVsfUl.x4iry7RlOdllrxGHBcVY33VKoUembfW"
+    },
+    {
+        "name": "Isaac Ruecker",
+        "email": "augusta88@example.com",
+        "password": "$2y$12$jzdTT8OZlCeNHCCZVsfUl.x4iry7RlOdllrxGHBcVY33VKoUembfW"
+    }
+]
