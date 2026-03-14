@@ -1,0 +1,26 @@
+{
+    "files.watcherExclude": {
+        "**/vendor/**": true,
+        "**/node_modules/**": true,
+        "**/storage/framework/**": true,
+        "**/storage/logs/**": true,
+        "**/public/build/**": true,
+        "**/.git/objects/**": true,
+        "**/.git/subtree-cache/**": true
+    },
+    "files.exclude": {
+        "**/vendor": true,
+        "**/node_modules": true,
+        "**/public/build": true,
+        "**/.phpunit.cache": true,
+        "**/.phpunit.result.cache": true
+    },
+    "search.exclude": {
+        "**/vendor/**": true,
+        "**/node_modules/**": true,
+        "**/public/build/**": true,
+        "**/storage/**": true
+    },
+    "git.ignoreLimitWarning": true,
+    "git.untrackedChanges": "hidden"
+}

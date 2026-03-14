@@ -1,0 +1,37 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Node
+node_modules
+
+# Laravel local files
+.env
+.env.backup
+storage/logs
+storage/framework/cache
+storage/framework/sessions
+storage/framework/views
+
+# Dev/test
+tests
+*.test.js
+phpunit.xml
+.phpunit.result.cache
+
+# Docker files (ya están en el contexto, se excluyen los innecesarios)
+docker-compose*.yml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode
+.idea
+*.suo
+*.user
+
+# Build artifacts (se generan en el propio build)
+public/hot

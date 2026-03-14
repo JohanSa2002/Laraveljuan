@@ -56,26 +56,6 @@
                 </div>
             </div>
 
-            <!-- Profile Search Bar -->
-            <div class="hidden sm:flex flex-1 items-center justify-center px-12">
-                <form action="{{ route('profile.search') }}" method="POST" class="w-full max-w-md relative group">
-                    @csrf
-                    <div class="relative">
-                        <input type="email" name="email" id="nav_search_email" required
-                            class="block w-full bg-white/50 backdrop-blur-sm border-gray-200 rounded-2xl pl-11 pr-4 focus:ring-2 focus:ring-cyber-purple-500/20 focus:border-cyber-purple-500 transition-all duration-300 py-2.5 text-sm"
-                            placeholder="Buscar perfil académico...">
-                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                            <svg class="h-4 w-4 text-gray-400 group-focus-within:text-cyber-purple-500 transition-colors"
-                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                            </svg>
-                        </div>
-                    </div>
-                </form>
-            </div>
-
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <x-dropdown align="right" width="48">

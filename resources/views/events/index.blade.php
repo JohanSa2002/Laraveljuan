@@ -115,7 +115,7 @@
 
                             <a href="{{ route('events.show', $event) }}" 
                                 class="w-full py-5 bg-gray-50 group-hover:bg-cyber-purple-600 group-hover:text-white text-center font-black uppercase tracking-widest text-xs transition-all duration-500 flex items-center justify-center gap-2">
-                                Ver Detalles e Inscribirse
+                                {{ Auth::user()->is_admin ? 'Ver Detalles' : 'Ver Detalles e Inscribirse' }}
                                 <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                                 </svg>

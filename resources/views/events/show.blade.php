@@ -114,39 +114,108 @@
 
                 <!-- Sidebar de Acción -->
                 <div class="space-y-8">
-                    <div class="glass-card rounded-[3rem] p-10 bg-cyber-dark-900 text-white sticky top-8 text-center">
-                        <div class="w-20 h-20 bg-cyber-purple-500/20 text-cyber-purple-400 rounded-[2rem] flex items-center justify-center mx-auto mb-6">
-                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                            </svg>
-                        </div>
-                        <h4 class="text-2xl font-black uppercase tracking-tighter mb-4">¿Listo para participar?</h4>
-                        <p class="text-gray-400 text-sm mb-8 font-medium">Sube tu artículo científico y selecciona este evento en el formulario de envío para inscribirte directamente.</p>
-                        
-                        @auth
-                            @if($isClosed)
-                                 <button disabled class="w-full py-5 bg-gray-700 text-gray-400 rounded-[2rem] font-black uppercase tracking-widest text-xs cursor-not-allowed">
-                                    Convocatoria Finalizada
-                                </button>
-                            @else
-                                <a href="{{ route('articles.create', ['event_id' => $event->id]) }}" class="block w-full py-5 bg-cyber-purple-600 hover:bg-cyber-purple-700 text-white rounded-[2rem] font-black uppercase tracking-widest text-xs shadow-xl shadow-cyber-purple-500/20 transition-all">
-                                    Inscribir Artículo Ahora
-                                </a>
-                            @endif
-                        @else
-                            <div class="space-y-4">
-                                <p class="text-xs text-cyber-purple-400 font-bold uppercase tracking-widest">Requiere inicio de sesión</p>
-                                <a href="{{ route('login') }}" class="block w-full py-5 border-2 border-cyber-purple-500/30 hover:border-cyber-purple-500 text-cyber-purple-400 hover:text-white hover:bg-cyber-purple-500 rounded-[2rem] font-black uppercase tracking-widest text-xs transition-all">
-                                    Iniciar Sesión para Participar
-                                </a>
-                            </div>
-                        @endauth
-                        
-                        <p class="mt-6 text-[10px] text-gray-500 uppercase tracking-widest font-black">UTP • INVESTIGACIÓN • 2026</p>
-                    </div>
 
                     @auth
-                        @if(!Auth::user()->is_admin)
+                        @if(Auth::user()->is_admin)
+                            {{-- ADMIN: Informe de artículos participantes --}}
+                            <div class="glass-card rounded-[3rem] p-8 bg-white border border-gray-100">
+                                <div class="flex items-center gap-3 mb-6">
+                                    <div class="w-10 h-10 bg-cyber-purple-100 text-cyber-purple-600 rounded-2xl flex items-center justify-center">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-black text-gray-900 uppercase tracking-tighter text-sm">Artículos Inscritos</h5>
+                                        <p class="text-xs text-gray-400 font-bold">{{ $articles->count() }} participante(s)</p>
+                                    </div>
+                                </div>
+
+                                @if($articles->isEmpty())
+                                    <div class="text-center py-8">
+                                        <div class="w-14 h-14 bg-gray-100 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                                            <svg class="w-7 h-7 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                            </svg>
+                                        </div>
+                                        <p class="text-sm text-gray-400 font-bold">Ningún artículo inscrito aún</p>
+                                    </div>
+                                @else
+                                    @php
+                                        $byCategory = $articles->groupBy(fn($a) => $a->event_category ?: 'Sin categoría');
+                                    @endphp
+                                    <div class="space-y-4 max-h-[560px] overflow-y-auto pr-1">
+                                        @foreach($byCategory as $category => $catArticles)
+                                            <div class="border border-gray-100 rounded-2xl overflow-hidden">
+                                                {{-- Cabecera de categoría --}}
+                                                <div class="flex items-center justify-between bg-cyber-purple-50 px-4 py-3">
+                                                    <div class="flex items-center gap-2">
+                                                        <div class="w-2 h-2 bg-cyber-purple-500 rounded-full"></div>
+                                                        <span class="text-[11px] font-black uppercase tracking-widest text-cyber-purple-700">{{ $category }}</span>
+                                                    </div>
+                                                    <span class="text-[10px] font-black bg-cyber-purple-100 text-cyber-purple-600 px-2.5 py-1 rounded-full">
+                                                        {{ $catArticles->count() }}
+                                                    </span>
+                                                </div>
+
+                                                {{-- Artículos de la categoría --}}
+                                                <div class="divide-y divide-gray-50">
+                                                    @foreach($catArticles as $article)
+                                                        <div class="p-4 bg-white hover:bg-gray-50 transition-colors">
+                                                            <p class="font-black text-gray-900 text-sm leading-tight mb-1 line-clamp-2">{{ $article->title }}</p>
+                                                            <p class="text-xs text-gray-500 font-bold">
+                                                                <span class="text-gray-400">Autor:</span> {{ $article->student->name ?? 'N/A' }}
+                                                            </p>
+                                                            @if($article->advisor)
+                                                                <p class="text-xs text-gray-500 font-bold">
+                                                                    <span class="text-gray-400">Asesor:</span> {{ $article->advisor->name }}
+                                                                </p>
+                                                            @endif
+                                                            <div class="mt-2">
+                                                                @php
+                                                                    $statusColor = match($article->status) {
+                                                                        'aprobado'  => 'bg-green-100 text-green-600',
+                                                                        'rechazado' => 'bg-red-100 text-red-600',
+                                                                        default     => 'bg-yellow-100 text-yellow-600',
+                                                                    };
+                                                                @endphp
+                                                                <span class="inline-block text-[10px] font-black uppercase tracking-widest {{ $statusColor }} px-3 py-1 rounded-full">
+                                                                    {{ ucfirst($article->status) }}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @endif
+                            </div>
+
+                        @else
+                            {{-- USUARIO: Botón de inscripción --}}
+                            <div class="glass-card rounded-[3rem] p-10 bg-cyber-dark-900 text-white sticky top-8 text-center">
+                                <div class="w-20 h-20 bg-cyber-purple-500/20 text-cyber-purple-400 rounded-[2rem] flex items-center justify-center mx-auto mb-6">
+                                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                    </svg>
+                                </div>
+                                <h4 class="text-2xl font-black uppercase tracking-tighter mb-4">¿Listo para participar?</h4>
+                                <p class="text-gray-400 text-sm mb-8 font-medium">Sube tu artículo científico y selecciona este evento en el formulario de envío para inscribirte directamente.</p>
+
+                                @if($isClosed)
+                                    <button disabled class="w-full py-5 bg-gray-700 text-gray-400 rounded-[2rem] font-black uppercase tracking-widest text-xs cursor-not-allowed">
+                                        Convocatoria Finalizada
+                                    </button>
+                                @else
+                                    <a href="{{ route('articles.create', ['event_id' => $event->id]) }}" class="block w-full py-5 bg-cyber-purple-600 hover:bg-cyber-purple-700 text-white rounded-[2rem] font-black uppercase tracking-widest text-xs shadow-xl shadow-cyber-purple-500/20 transition-all">
+                                        Inscribir Artículo Ahora
+                                    </a>
+                                @endif
+
+                                <p class="mt-6 text-[10px] text-gray-500 uppercase tracking-widest font-black">UTP • INVESTIGACIÓN • 2026</p>
+                            </div>
+
                             <div class="glass-card rounded-[3rem] p-8 bg-white border border-gray-100 flex items-center gap-4">
                                 <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center shrink-0">
                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -156,8 +225,27 @@
                                 <p class="text-xs text-gray-500 font-bold">Recuerda que tu artículo debe ser revisado por un asesor seleccionado antes de ser aprobado para el evento.</p>
                             </div>
                         @endif
+                    @else
+                        {{-- INVITADO --}}
+                        <div class="glass-card rounded-[3rem] p-10 bg-cyber-dark-900 text-white sticky top-8 text-center">
+                            <div class="w-20 h-20 bg-cyber-purple-500/20 text-cyber-purple-400 rounded-[2rem] flex items-center justify-center mx-auto mb-6">
+                                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                </svg>
+                            </div>
+                            <h4 class="text-2xl font-black uppercase tracking-tighter mb-4">¿Listo para participar?</h4>
+                            <p class="text-gray-400 text-sm mb-8 font-medium">Sube tu artículo científico y selecciona este evento en el formulario de envío para inscribirte directamente.</p>
+                            <div class="space-y-4">
+                                <p class="text-xs text-cyber-purple-400 font-bold uppercase tracking-widest">Requiere inicio de sesión</p>
+                                <a href="{{ route('login') }}" class="block w-full py-5 border-2 border-cyber-purple-500/30 hover:border-cyber-purple-500 text-cyber-purple-400 hover:text-white hover:bg-cyber-purple-500 rounded-[2rem] font-black uppercase tracking-widest text-xs transition-all">
+                                    Iniciar Sesión para Participar
+                                </a>
+                            </div>
+                            <p class="mt-6 text-[10px] text-gray-500 uppercase tracking-widest font-black">UTP • INVESTIGACIÓN • 2026</p>
+                        </div>
                     @endauth
                 </div>
+
             </div>
         </div>
     </div>

@@ -34,19 +34,6 @@
         <!-- Quick Access Grid -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <div class="glass-card p-8 rounded-[2.5rem] hover:bg-white hover:shadow-2xl hover:shadow-cyber-purple-500/10 transition-all duration-500 cursor-pointer group flex flex-col items-center text-center border-2 border-transparent hover:border-cyber-purple-100"
-                onclick="window.location.href='{{ route('profile.edit') }}'">
-                <div
-                    class="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all duration-500 shadow-inner">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                    </svg>
-                </div>
-                <h4 class="text-xl font-black text-gray-900 uppercase tracking-tighter">Mi Perfil</h4>
-                <p class="text-xs text-gray-500 mt-1 font-medium leading-tight">Identidad científica</p>
-            </div>
-
-            <div class="glass-card p-8 rounded-[2.5rem] hover:bg-white hover:shadow-2xl hover:shadow-cyber-purple-500/10 transition-all duration-500 cursor-pointer group flex flex-col items-center text-center border-2 border-transparent hover:border-cyber-purple-100"
                 onclick="window.location.href='{{ Auth::user()->is_admin ? route('admin.articles') : route('articles.index') }}'">
                 <div
                     class="w-16 h-16 bg-purple-50 text-cyber-purple-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-cyber-purple-600 group-hover:text-white transition-all duration-500 shadow-inner">
@@ -85,25 +72,5 @@
             </div>
         </div>
 
-        <!-- Banner Information -->
-        <div class="bg-cyber-dark-900 rounded-[2rem] p-8 text-white relative overflow-hidden">
-            <div class="absolute inset-0 bg-gradient-to-r from-cyber-purple-900/50 to-transparent"></div>
-            <div class="relative z-10 flex flex-col md:flex-row items-center justify-between">
-                <div>
-                    <h4 class="text-xl font-bold flex items-center">
-                        <span class="w-2 h-2 bg-green-400 rounded-full mr-3 animate-pulse"></span>
-                        Buscador Inteligente Activo
-                    </h4>
-                    <p class="text-gray-400 mt-2 text-sm">Utiliza la barra superior para encontrar perfiles y
-                        colaboraciones en toda la red universitaria.</p>
-                </div>
-                <div class="mt-6 md:mt-0">
-                    <button
-                        class="px-6 py-3 border border-white/20 rounded-xl hover:bg-white/10 transition-colors text-sm font-medium">
-                        Ver Guía de Búsqueda
-                    </button>
-                </div>
-            </div>
-        </div>
     </div>
 </x-app-layout>

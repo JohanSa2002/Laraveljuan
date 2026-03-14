@@ -17,7 +17,8 @@ class EventController extends Controller
 
     public function show(Event $event)
     {
-        return view('events.show', compact('event'));
+        $articles = $event->articles()->with(['student', 'advisor'])->latest()->get();
+        return view('events.show', compact('event', 'articles'));
     }
 
     public function create()
