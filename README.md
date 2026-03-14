@@ -1,59 +1,81 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🚀 UTP Académico - Sistema de Gestión de Investigaciones
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Este proyecto es una plataforma para la gestión de eventos científicos y artículos de investigación para la UTP. Está construido con tecnologías modernas y diseñado para ejecutarse fácilmente mediante contenedores.
 
-## About Laravel
+## 🛠 Stack Tecnológico
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+*   **Backend:** [Laravel 11](https://laravel.com/) (PHP 8.2)
+*   **Frontend:** [Blade](https://laravel.com/docs/11.x/blade) + [Tailwind CSS](https://tailwindcss.com/) + [Vite](https://vitejs.dev/)
+*   **Base de Datos:** SQLite (Persistida en volumen Docker)
+*   **Infraestructura:** Docker + Docker Compose
+*   **Servidor Web:** Nginx (Alpine Liquid)
+*   **Diseño:** Cyber Purple System (Glassmorphism & High Contrast)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 📦 Instalación con Docker (Paso a Paso)
 
-## Learning Laravel
+Sigue estos pasos para instalar y ejecutar la aplicación en cualquier computadora.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### 1. Requisitos Previos
+*   Tener instalado [Docker Desktop](https://www.docker.com/products/docker-desktop/).
+*   Asegurarse de que Docker esté iniciado.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 2. Obtener el Código
+*   **Opción A (Git):** `git clone https://github.com/JohanSa2002/Laraveljuan.git`
+*   **Opción B (ZIP):** Descarga el ZIP desde GitHub y descomprímelo en una carpeta.
 
-## Laravel Sponsors
+### 3. Configuración Inicial
+Abre una terminal (PowerShell o CMD) dentro de la carpeta del proyecto y ejecuta:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```bash
+# Copiar el archivo de entorno pre-configurado para Docker
+copy .env.docker .env
+```
 
-### Premium Partners
+### 4. Construir e Iniciar
+Ejecuta el siguiente comando para levantar todo el sistema:
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+```bash
+docker-compose up -d --build
+```
+> **Nota:** La primera vez puede tardar unos minutos mientras descarga las imágenes de PHP y Nginx, instala las dependencias de Composer y compila el CSS/JS.
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## 🚀 Acceso a la Aplicación
 
-## Code of Conduct
+Una vez que termine el proceso, puedes acceder desde tu navegador:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+🔗 **URL:** [http://localhost:8080](http://localhost:8080)
 
-## Security Vulnerabilities
+### Comandos Frecuentes
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+| Tarea | Comando |
+| :--- | :--- |
+| **Ver estado de los contenedores** | `docker-compose ps` |
+| **Ver logs (errores)** | `docker-compose logs -f app` |
+| **Detener la aplicación** | `docker-compose down` |
+| **Reiniciar la aplicación** | `docker-compose restart` |
+| **Entrar a la consola de Laravel** | `docker-compose exec app php artisan [comando]` |
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 📂 Estructura del Proyecto
+
+*   `/app`: Lógica del negocio (Controladores, Modelos).
+*   `/resources/views`: Vistas de la aplicación (Blade).
+*   `/public`: Archivos públicos y assets compilados.
+*   `/database`: Migraciones y archivo de base de datos SQLite.
+*   `/docker`: Archivos de configuración de Nginx y Scripts de inicio.
+
+---
+
+## 📄 Notas de Manteniemiento
+
+1.  **Persistencia:** La base de datos y las imágenes subidas se guardan en **volúmenes de Docker**. No se pierden al apagar los contenedores.
+2.  **Migraciones:** El sistema ejecuta automáticamente `php artisan migrate` al iniciar.
+3.  **Permisos:** Los scripts de Docker ajustan automáticamente los permisos de las carpetas `storage` y `bootstrap/cache`.
+
+---
+*Desarrollado para UTP - Investigación 2026*
