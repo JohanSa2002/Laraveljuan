@@ -217,52 +217,153 @@
         </div>
     </section>
 
-    <!-- News & Announcements (Static placeholder for now, admin editable concept) -->
-    <section class="py-20 bg-white border-t border-gray-200">
+    <!-- News & Events -->
+    <section class="py-20 bg-white border-t border-gray-200" x-data="{ 
+        showModal: false, 
+        activeItem: null,
+        openModal(item) {
+            this.activeItem = item;
+            this.showModal = true;
+            document.body.style.overflow = 'hidden';
+        },
+        closeModal() {
+            this.showModal = false;
+            document.body.style.overflow = 'auto';
+        }
+    }">
         <div class="max-w-7xl mx-auto px-6">
             <div class="flex justify-between items-end mb-12">
                 <div>
-                    <h2 class="text-3xl font-bold text-gray-900 font-serif" style="font-family: 'Playfair Display', serif;">Noticias y Avisos</h2>
-                    <p class="mt-2 text-gray-500">Información relevante de la Secretaría General y Vida Universitaria.</p>
+                    <h2 class="text-3xl font-bold text-gray-900 font-serif" style="font-family: 'Playfair Display', serif;">Actualidad y Eventos</h2>
+                    <p class="mt-2 text-gray-500">Mantente al tanto de las últimas noticias, avisos y convocatorias de investigación.</p>
                 </div>
-                <a href="#" class="hidden hover:underline text-purple-700 font-bold text-sm md:block">Ver todos los avisos &rarr;</a>
+                <a href="{{ route('events.index') }}" class="hidden hover:underline text-purple-700 font-bold text-sm md:block">Ver todos los eventos &rarr;</a>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                @forelse($notices as $notice)
-                    <!-- Notice Card -->
-                    <div class="group cursor-pointer">
-                        <div class="bg-gray-100 aspect-video rounded-xl overflow-hidden mb-4 relative">
-                            @if($notice->image_path)
-                                <img src="{{ Storage::url($notice->image_path) }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="{{ $notice->title }}">
-                            @else
-                                <!-- Default Image placeholder -->
-                                <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="{{ $notice->title }}">
-                            @endif
+                @php
+                    // Combine notices and events for a unified feed
+                    $feed = collect();
+                    
+                    foreach($notices as $notice) {
+                        $feed->push((object)[
+                            'id' => $notice->id,
+                            'title' => $notice->title,
+                            'summary' => $notice->summary,
+                            'content' => $notice->content,
+                            'image' => $notice->image_path ? Storage::url($notice->image_path) : 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=800&auto=format&fit=crop',
+                            'category' => $notice->category,
+                            'date' => $notice->created_at->locale('es')->isoFormat('D [de] MMMM, YYYY'),
+                            'raw_date' => $notice->created_at,
+                            'is_event' => false
+                        ]);
+                    }
+
+                    foreach($events as $event) {
+                        $feed->push((object)[
+                            'id' => $event->id,
+                            'title' => $event->name,
+                            'summary' => $event->description,
+                            'content' => $event->description, // Events use description for both
+                            'image' => $event->image_path ? Storage::url($event->image_path) : 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=800&auto=format&fit=crop',
+                            'category' => 'Evento',
+                            'date' => $event->created_at->locale('es')->isoFormat('D [de] MMMM, YYYY'),
+                            'raw_date' => $event->created_at,
+                            'is_event' => true
+                        ]);
+                    }
+
+                    $feed = $feed->sortByDesc('raw_date')->take(6);
+                @endphp
+
+                @forelse($feed as $item)
+                    <!-- Feed Card -->
+                    <div class="group cursor-pointer" @click="openModal({{ json_encode($item) }})">
+                        <div class="bg-gray-100 aspect-video rounded-xl overflow-hidden mb-4 relative shadow-sm">
+                            <img src="{{ $item->image }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="{{ $item->title }}">
                             
                             <div class="absolute inset-0 bg-black bg-opacity-10 group-hover:bg-opacity-0 transition-all"></div>
                             
                             @php
                                 $badgeColor = 'bg-fuchsia-600';
-                                if($notice->category == 'Aviso') $badgeColor = 'bg-blue-600';
-                                elseif($notice->category == 'Investigación') $badgeColor = 'bg-purple-900';
+                                if($item->category == 'Aviso') $badgeColor = 'bg-blue-600';
+                                elseif($item->category == 'Investigación') $badgeColor = 'bg-purple-900';
+                                elseif($item->is_event) $badgeColor = 'bg-cyber-purple-600';
                             @endphp
-                            <div class="absolute top-4 left-4 {{ $badgeColor }} text-white text-xs font-bold px-3 py-1 rounded">{{ $notice->category }}</div>
+                            <div class="absolute top-4 left-4 {{ $badgeColor }} text-white text-[10px] uppercase tracking-widest font-black px-3 py-1 rounded-lg shadow-lg">{{ $item->category }}</div>
                         </div>
-                        <p class="text-sm font-bold text-purple-700 mb-2">{{ $notice->created_at->translatedFormat('d \d\e F, Y') }}</p>
-                        <h3 class="text-xl font-bold text-gray-900 group-hover:text-purple-700 transition-colors line-clamp-2">{{ $notice->title }}</h3>
-                        @if($notice->summary)
-                            <p class="text-gray-500 text-sm mt-2 line-clamp-2">{{ $notice->summary }}</p>
+                        <p class="text-xs font-bold text-purple-700 mb-2 tracking-tighter">{{ $item->date }}</p>
+                        <h3 class="text-xl font-bold text-gray-900 group-hover:text-purple-700 transition-colors line-clamp-2 leading-tight">{{ $item->title }}</h3>
+                        @if($item->summary)
+                            <p class="text-gray-500 text-sm mt-2 line-clamp-2 leading-relaxed">{{ $item->summary }}</p>
                         @endif
                     </div>
                 @empty
-                    <div class="col-span-3 text-center py-12 text-gray-500">
+                    <div class="col-span-3 text-center py-12 text-gray-500 bg-gray-50 rounded-3xl border-2 border-dashed border-gray-200">
                         <svg class="w-12 h-12 text-gray-300 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path></svg>
-                        <p>No hay noticias recientes publicadas.</p>
+                        <p class="font-medium tracking-tight">No hay actualizaciones recientes publicadas.</p>
                     </div>
                 @endforelse
             </div>
         </div>
+
+        <!-- Modal Overlay -->
+        <template x-if="showModal">
+            <div class="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
+                <!-- Backdrop -->
+                <div class="absolute inset-0 bg-cyber-dark-900/80 backdrop-blur-sm" @click="closeModal()"></div>
+                
+                <!-- Modal Content -->
+                <div class="bg-white w-full max-w-4xl max-h-[90vh] rounded-[2.5rem] shadow-2xl relative z-10 overflow-hidden flex flex-col" 
+                     x-transition:enter="transition ease-out duration-300" 
+                     x-transition:enter-start="opacity-0 scale-95 translate-y-4" 
+                     x-transition:enter-end="opacity-100 scale-100 translate-y-0">
+                    
+                    <!-- Close Button -->
+                    <button @click="closeModal()" class="absolute top-6 right-6 z-20 bg-white/20 hover:bg-white/40 backdrop-blur-md p-2 rounded-full text-white transition-all">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
+
+                    <!-- Scrollable Area -->
+                    <div class="overflow-y-auto flex-grow">
+                        <!-- Image Header -->
+                        <div class="w-full h-64 sm:h-80 relative">
+                            <img :src="activeItem.image" class="w-full h-full object-cover" :alt="activeItem.title">
+                            <div class="absolute inset-0 bg-gradient-to-t from-white via-transparent to-black/20"></div>
+                            
+                            <div class="absolute bottom-12 left-8 sm:left-12 z-20">
+                                <span x-text="activeItem.category" 
+                                      :class="{
+                                          'bg-blue-600': activeItem.category === 'Aviso',
+                                          'bg-purple-900': activeItem.category === 'Investigación',
+                                          'bg-cyber-purple-600': activeItem.is_event,
+                                          'bg-fuchsia-600': !activeItem.is_event && activeItem.category !== 'Aviso' && activeItem.category !== 'Investigación'
+                                      }"
+                                      class="text-white text-[10px] uppercase tracking-widest font-black px-4 py-1.5 rounded-full shadow-lg"></span>
+                            </div>
+                        </div>
+
+                        <!-- Text content -->
+                        <div class="p-8 sm:p-12 -mt-8 bg-white relative rounded-t-[3rem]">
+                            <p class="text-cyber-purple-600 font-bold tracking-widest text-xs uppercase mb-4" x-text="activeItem.date"></p>
+                            <h2 class="text-3xl sm:text-4xl font-black text-gray-900 leading-tight mb-8" x-text="activeItem.title"></h2>
+                            
+                            <div class="prose prose-purple max-w-none">
+                                <div class="text-gray-600 text-lg leading-relaxed whitespace-pre-line font-medium" x-text="activeItem.content || activeItem.summary"></div>
+                            </div>
+
+                            <template x-if="activeItem.is_event">
+                                <div class="mt-12 pt-8 border-t border-gray-100 flex justify-center">
+                                    <a href="{{ route('events.index') }}" class="px-8 py-4 bg-cyber-purple-600 text-white rounded-2xl font-black uppercase tracking-widest text-xs shadow-xl shadow-cyber-purple-500/20 hover:scale-105 transition-all">
+                                        Explorar Todos los Eventos
+                                    </a>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
     </section>
 
     <!-- Footer -->

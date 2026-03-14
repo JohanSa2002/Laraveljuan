@@ -12,7 +12,7 @@
 
                     <div class="mb-6 relative">
                         @if($user->profile_photo_path)
-                            <img src="{{ asset('storage/' . $user->profile_photo_path) }}" alt="{{ $user->name }}"
+                            <img src="{{ Storage::url($user->profile_photo_path) }}" alt="{{ $user->name }}"
                                 class="w-40 h-40 rounded-full object-cover shadow-lg border-4 border-purple-100">
                         @else
                             <div

@@ -41,12 +41,7 @@
             @isset($header)
                 <header class="bg-white/40 backdrop-blur-xl border-b border-white/20 shadow-sm sticky top-0 z-50">
                     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        <div class="flex items-center space-x-4">
-                            <span class="h-8 w-1 bg-cyber-purple-500 rounded-full"></span>
-                            <div class="tech-gradient-text font-bold text-2xl tracking-tight">
-                                {{ $header }}
-                            </div>
-                        </div>
+                        {{ $header }}
                     </div>
                 </header>
             @endisset

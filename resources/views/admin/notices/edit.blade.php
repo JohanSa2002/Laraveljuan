@@ -45,6 +45,16 @@
                         <div class="mb-6">
                             <label for="image" class="block text-sm font-medium text-gray-700">Cambiar Imagen Destacada (Recomendado 16:9)</label>
                             <input type="file" name="image" id="image" accept="image/*" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
+                            <div class="mt-2 bg-blue-50/50 border border-blue-100 rounded-xl p-3">
+                                <p class="text-[10px] text-blue-600 font-bold uppercase tracking-widest flex items-center gap-2">
+                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                    Recomendación para nitidez
+                                </p>
+                                <p class="text-[10px] text-blue-500 mt-1 leading-relaxed">
+                                    Use imágenes de <b>1280 x 720 px</b> (Relación 16:9). <br>
+                                    Formato WebP o JPG. Peso máximo: <b>500 KB</b>.
+                                </p>
+                            </div>
                             @if($notice->image_path)
                                 <div class="mt-2 text-sm text-gray-500">
                                     <p class="mb-2">Imagen Actual:</p>

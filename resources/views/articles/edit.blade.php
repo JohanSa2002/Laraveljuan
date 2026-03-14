@@ -75,6 +75,39 @@
                             </div>
                         @endif
 
+                        <!-- Event Selection -->
+                        <div class="mt-4 p-4 bg-cyber-purple-50/30 rounded-2xl border border-cyber-purple-100/50">
+                            <h4 class="text-xs font-black uppercase tracking-widest text-cyber-purple-600 mb-4">Inscripción a Concurso (Opcional)</h4>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <x-input-label for="event_id" :value="__('Evento')" class="text-[10px] font-black uppercase mb-1" />
+                                    <select id="event_id" name="event_id"
+                                        class="block w-full border-gray-200 focus:border-cyber-purple-500 focus:ring-cyber-purple-500 rounded-xl shadow-sm text-sm"
+                                        onchange="updateCategories()">
+                                        <option value="">Sin definir (Revisión normal)</option>
+                                        @foreach($events as $event)
+                                            <option value="{{ $event->id }}" 
+                                                data-categories="{{ json_encode($event->categories) }}"
+                                                {{ old('event_id', $article->event_id) == $event->id ? 'selected' : '' }}>
+                                                {{ $event->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <x-input-error :messages="$errors->get('event_id')" class="mt-2" />
+                                </div>
+
+                                <div id="category_container" style="display: none;">
+                                    <x-input-label for="event_category" :value="__('Categoría')" class="text-[10px] font-black uppercase mb-1" />
+                                    <select id="event_category" name="event_category"
+                                        class="block w-full border-gray-200 focus:border-cyber-purple-500 focus:ring-cyber-purple-500 rounded-xl shadow-sm text-sm">
+                                        <option value="">Seleccione categoría</option>
+                                    </select>
+                                    <x-input-error :messages="$errors->get('event_category')" class="mt-2" />
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- PDF Upload (Optional in Edit) -->
                         <div class="mt-4 p-4 bg-purple-50 rounded-lg border border-purple-100">
                             <x-input-label for="pdf_file" :value="__('Actualizar Archivo PDF (Opcional)')" />
@@ -90,6 +123,40 @@
                             </div>
                             <x-input-error :messages="$errors->get('pdf_file')" class="mt-2" />
                         </div>
+
+                        <script>
+                            function updateCategories() {
+                                const eventSelect = document.getElementById('event_id');
+                                const categoryContainer = document.getElementById('category_container');
+                                const categorySelect = document.getElementById('event_category');
+                                
+                                const selectedOption = eventSelect.options[eventSelect.selectedIndex];
+                                
+                                if (selectedOption.value) {
+                                    const categories = JSON.parse(selectedOption.getAttribute('data-categories'));
+                                    
+                                    // Limpiar y llenar
+                                    categorySelect.innerHTML = '<option value="">Seleccione categoría</option>';
+                                    categories.forEach(cat => {
+                                        const option = document.createElement('option');
+                                        option.value = cat;
+                                        option.textContent = cat;
+                                        if ("{{ old('event_category', $article->event_category) }}" === cat) {
+                                            option.selected = true;
+                                        }
+                                        categorySelect.appendChild(option);
+                                    });
+                                    
+                                    categoryContainer.style.display = 'block';
+                                    categorySelect.disabled = false;
+                                } else {
+                                    categoryContainer.style.display = 'none';
+                                    categorySelect.disabled = true;
+                                }
+                            }
+
+                            document.addEventListener('DOMContentLoaded', updateCategories);
+                        </script>
 
                         <div class="flex items-center justify-end mt-6 gap-3">
                             <a href="{{ route('articles.show', $article) }}"

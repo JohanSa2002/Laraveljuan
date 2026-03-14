@@ -61,7 +61,7 @@
             <x-input-label for="photo" :value="__('Foto de Perfil')" />
             @if($user->profile_photo_path)
                 <div class="mt-2 mb-2">
-                    <img src="{{ asset('storage/' . $user->profile_photo_path) }}" alt="Foto de perfil"
+                    <img src="{{ Storage::url($user->profile_photo_path) }}" alt="Foto de perfil"
                         class="w-20 h-20 rounded-full object-cover">
                 </div>
             @endif

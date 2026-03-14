@@ -15,7 +15,12 @@ Route::get('/', function () {
         ->take(3)
         ->get();
 
-    return view('welcome', compact('publishedArticles', 'notices'));
+    $events = \App\Models\Event::where('is_active', true)
+        ->latest()
+        ->take(3)
+        ->get();
+
+    return view('welcome', compact('publishedArticles', 'notices', 'events'));
 });
 
 Route::get('/dashboard', function () {
@@ -30,15 +35,26 @@ Route::middleware('auth')->group(function () {
     Route::resource('articles', \App\Http\Controllers\ArticleController::class);
     Route::patch('articles/{article}/evaluate', [\App\Http\Controllers\ArticleController::class, 'evaluate'])->name('articles.evaluate');
 
+    // Library (Librería)
+    Route::get('/library', [\App\Http\Controllers\LibraryController::class, 'index'])->name('library.index');
+    Route::post('/library', [\App\Http\Controllers\LibraryController::class, 'store'])->name('library.store');
+    Route::delete('/library/{resource}', [\App\Http\Controllers\LibraryController::class, 'destroy'])->name('library.destroy');
+
     // Public Profiles
     Route::post('/profile/search', [\App\Http\Controllers\PublicProfileController::class, 'search'])->name('profile.search');
     Route::get('/profile/view/{id}', [\App\Http\Controllers\PublicProfileController::class, 'show'])->name('profile.public.show');
+    
+    // Events (Eventos)
+    Route::get('/events', [\App\Http\Controllers\EventController::class, 'index'])->name('events.index');
+    Route::get('/events/{event}', [\App\Http\Controllers\EventController::class, 'show'])->name('events.show');
 
     // Admin Routes
     Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
         Route::get('/users', [\App\Http\Controllers\AdminController::class, 'users'])->name('users');
+        Route::delete('/users/{user}', [\App\Http\Controllers\AdminController::class, 'destroyUser'])->name('users.destroy');
         Route::get('/articles', [\App\Http\Controllers\AdminController::class, 'articles'])->name('articles');
         Route::resource('/notices', \App\Http\Controllers\NoticeController::class)->except(['show']);
+        Route::resource('/events', \App\Http\Controllers\EventController::class)->except(['index', 'show']);
     });
 });
 

@@ -32,10 +32,29 @@ class RegisteredUserController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'cedula' => ['required', 'string', 'max:20', 'unique:' . User::class],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
-            'institutional_email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
+            'email' => [
+                'required', 
+                'string', 
+                'lowercase', 
+                'email', 
+                'max:255', 
+                'unique:' . User::class,
+                'regex:/^.+@utp\.ac\.pa$/i'
+            ],
+            'institutional_email' => [
+                'required', 
+                'string', 
+                'lowercase', 
+                'email', 
+                'max:255', 
+                'unique:' . User::class,
+                'regex:/^.+@utp\.ac\.pa$/i'
+            ],
             'role' => ['required', 'string', 'in:advisor,student'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ], [
+            'email.regex' => 'El correo debe ser institucional (@utp.ac.pa).',
+            'institutional_email.regex' => 'El correo institucional debe terminar en @utp.ac.pa.',
         ]);
 
         $user = User::create([

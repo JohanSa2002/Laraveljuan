@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Article;
 use App\Models\User;
+use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -13,7 +14,10 @@ class ArticleController extends Controller
     public function index()
     {
         $user = Auth::user();
-        if ($user->is_advisor) {
+        if ($user->is_admin) {
+            // Admin sees everything globally
+            $articles = Article::latest()->get();
+        } elseif ($user->is_advisor) {
             // Advisor sees articles assigned to them or all (based on preference)
             // For now, let's show all articles where they are the advisor
             $articles = Article::where('advisor_id', $user->id)->latest()->get();
@@ -28,7 +32,10 @@ class ArticleController extends Controller
     public function create()
     {
         $advisors = User::where('is_advisor', true)->get();
-        return view('articles.create', compact('advisors'));
+        $events = Event::where('is_active', true)
+            ->where('end_date', '>=', now())
+            ->get();
+        return view('articles.create', compact('advisors', 'events'));
     }
 
     public function store(Request $request)
@@ -49,6 +56,9 @@ class ArticleController extends Controller
             $rules['advisor_id'] = 'required|exists:users,id';
         }
 
+        $rules['event_id'] = 'nullable|exists:events,id';
+        $rules['event_category'] = 'nullable|string';
+
         $request->validate($rules);
 
         $path = $request->file('pdf_file')->store('articles', 'public');
@@ -60,6 +70,8 @@ class ArticleController extends Controller
             'career' => $request->career,
             'pdf_path' => $path,
             'status' => 'revisión',
+            'event_id' => $request->event_id,
+            'event_category' => $request->event_category,
         ];
 
         if ($user->is_advisor) {
@@ -91,7 +103,10 @@ class ArticleController extends Controller
         }
 
         $advisors = User::where('is_advisor', true)->get();
-        return view('articles.edit', compact('article', 'advisors'));
+        $events = Event::where('is_active', true)
+            ->where('end_date', '>=', now())
+            ->get();
+        return view('articles.edit', compact('article', 'advisors', 'events'));
     }
 
     public function update(Request $request, Article $article)
@@ -119,6 +134,9 @@ class ArticleController extends Controller
             $rules['advisor_id'] = 'required|exists:users,id';
         }
 
+        $rules['event_id'] = 'nullable|exists:events,id';
+        $rules['event_category'] = 'nullable|string';
+
         $request->validate($rules);
 
         $data = [
@@ -126,6 +144,8 @@ class ArticleController extends Controller
             'students' => $request->students,
             'year' => $request->year,
             'career' => $request->career,
+            'event_id' => $request->event_id,
+            'event_category' => $request->event_category,
         ];
 
         if ($user->is_advisor) {
@@ -143,6 +163,13 @@ class ArticleController extends Controller
 
         if (isset($rules['advisor_id'])) {
             $data['advisor_id'] = $request->advisor_id;
+        }
+
+        // Si el estudiante edita el artículo (no es asesor ni admin), el estatus vuelve a 'revisión'
+        // y se limpian los comentarios previos del asesor.
+        if (!$user->is_advisor && !$user->is_admin) {
+            $data['status'] = 'revisión';
+            $data['comments'] = null;
         }
 
         $article->update($data);
@@ -167,5 +194,24 @@ class ArticleController extends Controller
         ]);
 
         return redirect()->route('articles.index')->with('success', 'Evaluación guardada.');
+    }
+
+    public function destroy(Article $article)
+    {
+        $user = Auth::user();
+
+        // Solo admin puede borrar, o el dueño si está en revisión (opcional, pero user pidió por problemas)
+        // El user pidió específicamente borrar por si existe algún problema (función de admin)
+        if (!$user->is_admin) {
+            abort(403);
+        }
+
+        if ($article->pdf_path) {
+            Storage::disk('public')->delete($article->pdf_path);
+        }
+
+        $article->delete();
+
+        return redirect()->back()->with('success', 'Investigación eliminada permanentemente.');
     }
 }

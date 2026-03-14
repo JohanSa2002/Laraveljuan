@@ -103,7 +103,14 @@
                                             <div
                                                 class="font-bold text-gray-800 line-clamp-1 group-hover:text-cyber-purple-600 transition-colors">
                                                 {{ $article->title }}</div>
-                                            <div class="text-xs text-gray-500">{{ $article->career }}</div>
+                                            <div class="flex items-center gap-2 mt-1">
+                                                <span class="text-xs text-gray-500">{{ $article->career }}</span>
+                                                @if($article->event_id)
+                                                    <span class="inline-flex items-center px-2 py-0.5 bg-cyber-purple-100 text-cyber-purple-600 rounded text-[9px] font-black uppercase tracking-tighter">
+                                                        {{ $article->event->name }}
+                                                    </span>
+                                                @endif
+                                            </div>
                                         </div>
                                     </div>
                                 </td>

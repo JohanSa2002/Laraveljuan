@@ -51,5 +51,19 @@ class AdminController extends Controller
         $articles = $query->latest()->get();
         return view('admin.articles', compact('articles'));
     }
+
+    /**
+     * Delete a user account.
+     */
+    public function destroyUser(User $user)
+    {
+        if ($user->is_admin) {
+            return redirect()->back()->with('error', 'Seguridad: No se puede eliminar a otro administrador.');
+        }
+
+        $user->delete();
+
+        return redirect()->back()->with('success', 'Usuario eliminado satisfactoriamente.');
+    }
 }
 

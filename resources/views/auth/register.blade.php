@@ -20,17 +20,17 @@
 
         <!-- Email Address -->
         <div class="mt-4">
-            <x-input-label for="email" :value="__('Correo Personal')" />
+            <x-input-label for="email" :value="__('Correo Personal (Uso UTP)')" />
             <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required
-                autocomplete="username" />
+                autocomplete="username" placeholder="ejemplo@utp.ac.pa" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
-
+ 
         <!-- Institutional Email -->
         <div class="mt-4">
             <x-input-label for="institutional_email" :value="__('Correo Institucional')" />
             <x-text-input id="institutional_email" class="block mt-1 w-full" type="email" name="institutional_email"
-                :value="old('institutional_email')" required />
+                :value="old('institutional_email')" required placeholder="nombre.apellido@utp.ac.pa" />
             <x-input-error :messages="$errors->get('institutional_email')" class="mt-2" />
         </div>
 

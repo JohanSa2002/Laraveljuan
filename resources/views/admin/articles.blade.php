@@ -1,6 +1,11 @@
 <x-app-layout>
     <x-slot name="header">
-        {{ __('Repositorio Global de Investigaciones') }}
+        <div class="flex items-center space-x-4">
+            <span class="h-10 w-1.5 bg-cyber-purple-500 rounded-full"></span>
+            <h2 class="text-3xl font-black text-gray-900 uppercase tracking-tighter tech-gradient-text">
+                {{ __('Gestión Global') }}
+            </h2>
+        </div>
     </x-slot>
 
     <div class="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
@@ -31,7 +36,7 @@
                     </form>
                 </div>
 
-                <div class="flex space-x-4">
+                <div class="flex flex-wrap items-center gap-4">
                     <div class="px-6 py-3 bg-white border border-gray-100 rounded-2xl shadow-sm">
                         <div class="text-[10px] uppercase font-black text-gray-400 tracking-tighter">Artículos Totales
                         </div>
@@ -125,6 +130,16 @@
                                                     d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                                             </svg>
                                         </a>
+
+                                        <form action="{{ route('articles.destroy', $article) }}" method="POST" onsubmit="return confirm('¿Eliminar esta investigación permanentemente?')" class="inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="p-3 bg-white border border-rose-100 text-rose-400 hover:text-white hover:bg-rose-500 rounded-2xl transition-all shadow-sm">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                </svg>
+                                            </button>
+                                        </form>
                                     </div>
                                 </td>
                             </tr>

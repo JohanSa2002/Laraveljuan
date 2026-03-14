@@ -25,9 +25,19 @@
                         class="text-sm font-medium transition-colors hover:text-cyber-purple-600">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('articles.index')" :active="request()->routeIs('articles.*') && !request()->routeIs('admin.*')"
+                    @if(!Auth::user()->is_admin)
+                    <x-nav-link :href="route('articles.index')" :active="request()->routeIs('articles.*')"
                         class="text-sm font-medium transition-colors hover:text-cyber-purple-600">
                         {{ __('Artículos') }}
+                    </x-nav-link>
+                    @endif
+                    <x-nav-link :href="route('library.index')" :active="request()->routeIs('library.*')"
+                        class="text-sm font-medium transition-colors hover:text-cyber-purple-600">
+                        {{ __('Librería') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('events.index')" :active="request()->routeIs('events.*')"
+                        class="text-sm font-medium transition-colors hover:text-cyber-purple-600">
+                        {{ __('Eventos') }}
                     </x-nav-link>
                     @if(Auth::user()->is_admin)
                         <x-nav-link :href="route('admin.users')" :active="request()->routeIs('admin.users')"
@@ -72,11 +82,18 @@
                     <x-slot name="trigger">
                         <button
                             class="inline-flex items-center space-x-3 px-4 py-2 bg-white/50 backdrop-blur-sm border border-gray-100 rounded-2xl text-sm font-medium text-gray-700 hover:bg-white hover:shadow-md transition-all duration-300 focus:outline-none">
-                            <div
-                                class="h-8 w-8 rounded-full bg-gradient-to-tr from-cyber-purple-500 to-indigo-600 flex items-center justify-center text-white font-bold text-xs shadow-inner">
-                                {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                            <div class="flex items-center">
+                                @if(Auth::user()->profile_photo_path)
+                                    <img src="{{ Storage::url(Auth::user()->profile_photo_path) }}" alt="{{ Auth::user()->name }}"
+                                        class="h-8 w-8 rounded-full object-cover shadow-inner">
+                                @else
+                                    <div
+                                        class="h-8 w-8 rounded-full bg-gradient-to-tr from-cyber-purple-500 to-indigo-600 flex items-center justify-center text-white font-bold text-xs shadow-inner">
+                                        {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                                    </div>
+                                @endif
+                                <div class="hidden lg:block ml-3">{{ Auth::user()->name }}</div>
                             </div>
-                            <div class="hidden lg:block">{{ Auth::user()->name }}</div>
                             <svg class="h-4 w-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                                 fill="currentColor">
                                 <path fill-rule="evenodd"
@@ -130,30 +147,43 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}"
         class="hidden sm:hidden bg-white/80 backdrop-blur-xl border-t border-gray-100">
-        <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+        <div class="pt-2 pb-3 space-y-2 px-2">
+            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="rounded-xl">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('articles.index')" :active="request()->routeIs('articles.*') && !request()->routeIs('admin.*')">
+            @if(!Auth::user()->is_admin)
+            <x-responsive-nav-link :href="route('articles.index')" :active="request()->routeIs('articles.*')" class="rounded-xl">
                 {{ __('Artículos') }}
             </x-responsive-nav-link>
+            @endif
             @if(Auth::user()->is_admin)
-                <x-responsive-nav-link :href="route('admin.users')" :active="request()->routeIs('admin.users')">
+                <x-responsive-nav-link :href="route('admin.users')" :active="request()->routeIs('admin.users')" class="rounded-xl">
                     {{ __('Usuarios') }}
                 </x-responsive-nav-link>
-                <x-responsive-nav-link :href="route('admin.articles')" :active="request()->routeIs('admin.articles')">
+                <x-responsive-nav-link :href="route('admin.articles')" :active="request()->routeIs('admin.articles')" class="rounded-xl">
                     {{ __('Gestión Global') }}
                 </x-responsive-nav-link>
             @endif
+            <x-responsive-nav-link :href="route('library.index')" :active="request()->routeIs('library.*')" class="rounded-xl">
+                {{ __('Librería') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('events.index')" :active="request()->routeIs('events.*')" class="rounded-xl">
+                {{ __('Eventos') }}
+            </x-responsive-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-100">
             <div class="px-4 flex items-center space-x-3">
-                <div
-                    class="h-10 w-10 rounded-full bg-cyber-purple-500 flex items-center justify-center text-white font-bold">
-                    {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
-                </div>
+                @if(Auth::user()->profile_photo_path)
+                    <img src="{{ Storage::url(Auth::user()->profile_photo_path) }}" alt="{{ Auth::user()->name }}"
+                        class="h-10 w-10 rounded-full object-cover shadow-sm">
+                @else
+                    <div
+                        class="h-10 w-10 rounded-full bg-cyber-purple-500 flex items-center justify-center text-white font-bold">
+                        {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                    </div>
+                @endif
                 <div>
                     <div class="font-bold text-base text-gray-800">{{ Auth::user()->name }}</div>
                     <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>

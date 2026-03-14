@@ -20,7 +20,17 @@ class Article extends Model
         'user_id',
         'advisor_id',
         'comments',
+        'event_id',
+        'event_category',
     ];
+
+    /**
+     * Get the event this article is participating in.
+     */
+    public function event(): BelongsTo
+    {
+        return $this->belongsTo(Event::class);
+    }
 
     /**
      * Get the student that uploaded the article.
