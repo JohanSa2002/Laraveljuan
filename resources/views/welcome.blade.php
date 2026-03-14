@@ -18,7 +18,7 @@
 
 <body class="font-sans antialiased bg-gray-50 text-gray-800 min-h-screen overflow-x-hidden selection:bg-purple-900 selection:text-white">
     <!-- Navbar -->
-    <nav class="bg-purple-900 border-b border-purple-800 shadow-md">
+    <nav class="bg-white border-b-2 border-purple-900 shadow-sm sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
                 <div class="flex items-center py-2">
@@ -27,18 +27,20 @@
                     </a>
                 </div>
 
-                <div class="flex items-center space-x-4">
+                <div class="flex items-center space-x-4 md:space-x-8 lg:space-x-12">
                     @if (Route::has('login'))
                         @auth
                             <a href="{{ url('/dashboard') }}"
-                                class="px-5 py-2.5 bg-white text-purple-900 rounded-lg text-sm font-bold shadow hover:bg-gray-100 transition-colors">Panel Principal</a>
+                                class="px-6 py-3 bg-purple-900 text-white rounded-xl text-sm font-bold shadow-md hover:bg-purple-800 transition-all">Panel Principal</a>
                         @else
-                            <a href="{{ route('login') }}"
-                                class="text-sm font-semibold text-purple-100 hover:text-white transition-colors">Iniciar Sesión</a>
-                            @if (Route::has('register'))
-                                <a href="{{ route('register') }}"
-                                    class="px-5 py-2.5 bg-fuchsia-600 text-white rounded-lg text-sm font-bold shadow shadow-fuchsia-900/50 hover:bg-fuchsia-500 transition-colors">Crear Cuenta</a>
-                            @endif
+                            <div class="flex items-center space-x-6 md:space-x-10">
+                                <a href="{{ route('login') }}"
+                                    class="text-[15px] font-bold text-gray-700 hover:text-purple-900 transition-colors whitespace-nowrap">Iniciar Sesión</a>
+                                @if (Route::has('register'))
+                                    <a href="{{ route('register') }}"
+                                        class="px-7 py-3 bg-purple-900 text-white rounded-xl text-sm font-bold shadow-md hover:bg-purple-800 transition-all hover:scale-[1.02] whitespace-nowrap">Crear Cuenta</a>
+                                @endif
+                            </div>
                         @endauth
                     @endif
                 </div>
@@ -47,15 +49,19 @@
     </nav>
 
     <!-- Hero Section -->
-        <!-- Blurry Background Image -->
-        <div class="absolute inset-0 z-0 overflow-hidden">
-            <img src="{{ asset('images/utp-campus.jpg') }}" class="w-full h-full object-cover blur-md opacity-25 scale-105" alt="Campus UTP">
-            <div class="absolute inset-0 bg-gradient-to-b from-white/40 via-white/60 to-white"></div>
+    <main class="relative bg-white border-b border-gray-200 overflow-hidden">
+        <!-- Subtle White Fade Background -->
+        <div class="absolute inset-0 z-0">
+            <img src="{{ asset('images/utp-campus-v2.jpg') }}" class="w-full h-full object-cover" alt="Campus UTP">
+            <!-- 5% White Overlay (as requested) -->
+            <div class="absolute inset-0 bg-white opacity-5"></div>
+            <!-- Gentle fade to white at the bottom for section transition -->
+            <div class="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent opacity-60"></div>
         </div>
         
-        <div class="max-w-7xl mx-auto px-6 py-20 lg:py-28 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
+        <div class="max-w-7xl mx-auto px-6 py-24 lg:py-36 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
             <div class="space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-700">
-                <div class="inline-flex items-center space-x-2 px-3 py-1 bg-purple-100 rounded-full border border-purple-200">
+                <div class="inline-flex items-center space-x-2 px-3 py-1 bg-white/40 backdrop-blur-md rounded-full border border-purple-200/50 shadow-sm">
                     <span class="flex h-2 w-2 rounded-full bg-purple-600 animate-pulse"></span>
                     <span class="text-xs font-bold text-purple-800 tracking-wider">UNIVERSIDAD TECNOLÓGICA DE PANAMÁ</span>
                 </div>
