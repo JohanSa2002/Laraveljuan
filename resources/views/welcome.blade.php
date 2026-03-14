@@ -50,18 +50,22 @@
 
     <!-- Hero Section -->
     <main class="relative bg-white border-b border-gray-200 overflow-hidden">
-        <!-- Subtle White Fade Background -->
-        <div class="absolute inset-0 z-0">
+        <!-- Option 2: Side Wash Gradient Background -->
+        <div class="absolute inset-0 z-0 bg-white">
             <img src="{{ asset('images/utp-campus-v2.jpg') }}" class="w-full h-full object-cover" alt="Campus UTP">
-            <!-- 5% White Overlay (as requested) -->
+            <!-- 5% global white overlay -->
             <div class="absolute inset-0 bg-white opacity-5"></div>
-            <!-- Gentle fade to white at the bottom for section transition -->
-            <div class="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent opacity-60"></div>
+            <!-- Horizontal Gradient Mask (Option 2) -->
+            <div class="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent hidden lg:block"></div>
+            <!-- Mobile overlay (more uniform for small screens) -->
+            <div class="absolute inset-0 bg-white/40 lg:hidden"></div>
+            <!-- Bottom fade for section transition -->
+            <div class="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent"></div>
         </div>
         
-        <div class="max-w-7xl mx-auto px-6 py-24 lg:py-36 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
+        <div class="max-w-7xl mx-auto px-6 py-24 lg:py-40 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
             <div class="space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-700">
-                <div class="inline-flex items-center space-x-2 px-3 py-1 bg-white/40 backdrop-blur-md rounded-full border border-purple-200/50 shadow-sm">
+                <div class="inline-flex items-center space-x-2 px-3 py-1 bg-white/90 backdrop-blur-md rounded-full border border-purple-200 shadow-sm">
                     <span class="flex h-2 w-2 rounded-full bg-purple-600 animate-pulse"></span>
                     <span class="text-xs font-bold text-purple-800 tracking-wider">UNIVERSIDAD TECNOLÓGICA DE PANAMÁ</span>
                 </div>
