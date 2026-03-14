@@ -224,39 +224,38 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Card 1 -->
-                <div class="group cursor-pointer">
-                    <div class="bg-gray-100 aspect-video rounded-xl overflow-hidden mb-4 relative">
-                        <!-- Image placeholder -->
-                        <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Noticia 1">
-                        <div class="absolute inset-0 bg-black bg-opacity-10 group-hover:bg-opacity-0 transition-all"></div>
-                        <div class="absolute top-4 left-4 bg-fuchsia-600 text-white text-xs font-bold px-3 py-1 rounded">Academia</div>
+                @forelse($notices as $notice)
+                    <!-- Notice Card -->
+                    <div class="group cursor-pointer">
+                        <div class="bg-gray-100 aspect-video rounded-xl overflow-hidden mb-4 relative">
+                            @if($notice->image_path)
+                                <img src="{{ Storage::url($notice->image_path) }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="{{ $notice->title }}">
+                            @else
+                                <!-- Default Image placeholder -->
+                                <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="{{ $notice->title }}">
+                            @endif
+                            
+                            <div class="absolute inset-0 bg-black bg-opacity-10 group-hover:bg-opacity-0 transition-all"></div>
+                            
+                            @php
+                                $badgeColor = 'bg-fuchsia-600';
+                                if($notice->category == 'Aviso') $badgeColor = 'bg-blue-600';
+                                elseif($notice->category == 'Investigación') $badgeColor = 'bg-purple-900';
+                            @endphp
+                            <div class="absolute top-4 left-4 {{ $badgeColor }} text-white text-xs font-bold px-3 py-1 rounded">{{ $notice->category }}</div>
+                        </div>
+                        <p class="text-sm font-bold text-purple-700 mb-2">{{ $notice->created_at->translatedFormat('d \d\e F, Y') }}</p>
+                        <h3 class="text-xl font-bold text-gray-900 group-hover:text-purple-700 transition-colors line-clamp-2">{{ $notice->title }}</h3>
+                        @if($notice->summary)
+                            <p class="text-gray-500 text-sm mt-2 line-clamp-2">{{ $notice->summary }}</p>
+                        @endif
                     </div>
-                    <p class="text-sm font-bold text-purple-700 mb-2">12 de Octubre, 2026</p>
-                    <h3 class="text-xl font-bold text-gray-900 group-hover:text-purple-700 transition-colors line-clamp-2">Período de Recepción de Tesis para la Primera Graduación 2027</h3>
-                </div>
-
-                <!-- Card 2 -->
-                <div class="group cursor-pointer">
-                    <div class="bg-gray-100 aspect-video rounded-xl overflow-hidden mb-4 relative">
-                        <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Noticia 2">
-                        <div class="absolute inset-0 bg-black bg-opacity-10 group-hover:bg-opacity-0 transition-all"></div>
-                        <div class="absolute top-4 left-4 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded">Aviso</div>
+                @empty
+                    <div class="col-span-3 text-center py-12 text-gray-500">
+                        <svg class="w-12 h-12 text-gray-300 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path></svg>
+                        <p>No hay noticias recientes publicadas.</p>
                     </div>
-                    <p class="text-sm font-bold text-purple-700 mb-2">08 de Octubre, 2026</p>
-                    <h3 class="text-xl font-bold text-gray-900 group-hover:text-purple-700 transition-colors line-clamp-2">Nuevos Lineamientos para las Revisiones de Jurado</h3>
-                </div>
-
-                <!-- Card 3 -->
-                <div class="group cursor-pointer">
-                    <div class="bg-gray-100 aspect-video rounded-xl overflow-hidden mb-4 relative">
-                        <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Noticia 3">
-                        <div class="absolute inset-0 bg-black bg-opacity-10 group-hover:bg-opacity-0 transition-all"></div>
-                        <div class="absolute top-4 left-4 bg-purple-900 text-white text-xs font-bold px-3 py-1 rounded">Investigación</div>
-                    </div>
-                    <p class="text-sm font-bold text-purple-700 mb-2">02 de Octubre, 2026</p>
-                    <h3 class="text-xl font-bold text-gray-900 group-hover:text-purple-700 transition-colors line-clamp-2">Publicación del Journal de Ciencias y Tecnologías Aplicadas</h3>
-                </div>
+                @endforelse
             </div>
         </div>
     </section>

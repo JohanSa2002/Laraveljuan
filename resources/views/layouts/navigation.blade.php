@@ -38,6 +38,10 @@
                             class="text-sm font-medium transition-colors hover:text-cyber-purple-600">
                             {{ __('Gestión Global') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('admin.notices.index')" :active="request()->routeIs('admin.notices.*')"
+                            class="text-sm font-medium transition-colors hover:text-cyber-purple-600">
+                            {{ __('Noticias/Avisos') }}
+                        </x-nav-link>
                     @endif
                 </div>
             </div>

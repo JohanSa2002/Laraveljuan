@@ -9,7 +9,13 @@ Route::get('/', function () {
         ->latest()
         ->take(6)
         ->get();
-    return view('welcome', compact('publishedArticles'));
+        
+    $notices = \App\Models\Notice::where('is_active', true)
+        ->latest()
+        ->take(3)
+        ->get();
+
+    return view('welcome', compact('publishedArticles', 'notices'));
 });
 
 Route::get('/dashboard', function () {
@@ -32,6 +38,7 @@ Route::middleware('auth')->group(function () {
     Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
         Route::get('/users', [\App\Http\Controllers\AdminController::class, 'users'])->name('users');
         Route::get('/articles', [\App\Http\Controllers\AdminController::class, 'articles'])->name('articles');
+        Route::resource('/notices', \App\Http\Controllers\NoticeController::class)->except(['show']);
     });
 });
 
