@@ -10,8 +10,9 @@ touch /var/www/html/database/database.sqlite
 chown -R www-data:www-data /var/www/html/storage /var/www/html/database
 chmod -R 775 /var/www/html/storage /var/www/html/database
 
-# Run migrations
+# Run migrations and storage link
 php artisan migrate --force
+php artisan storage:link --force
 
 # Cache configuration for production (skip view:cache — compiled on demand)
 php artisan config:cache
