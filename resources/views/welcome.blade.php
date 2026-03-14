@@ -21,17 +21,10 @@
     <nav class="bg-purple-900 border-b border-purple-800 shadow-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
-                <div class="flex items-center space-x-3">
-                    <!-- Fake UTP Logo icon -->
-                    <div class="bg-white p-2 rounded-lg">
-                        <svg class="w-8 h-8 text-purple-900" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 2L2 7l10 5 10-5-10-5zm0 7l-10 5 10 5 10-5-10-5zm0 7l-10 5 10 5 10-5-10-5z" />
-                        </svg>
-                    </div>
-                    <div>
-                        <span class="block text-2xl font-bold text-white leading-none tracking-tight">UTP</span>
-                        <span class="block text-xs font-medium text-purple-200 uppercase tracking-widest mt-1">Investigación</span>
-                    </div>
+                <div class="flex items-center py-2">
+                    <a href="/" class="flex items-center">
+                        <img src="{{ asset('images/utp-logo.png') }}" alt="UTP Logo" class="h-16 w-auto drop-shadow-md">
+                    </a>
                 </div>
 
                 <div class="flex items-center space-x-4">
@@ -54,9 +47,11 @@
     </nav>
 
     <!-- Hero Section -->
-    <main class="relative bg-white border-b border-gray-200 uppercase overflow-hidden">
-        <!-- Abstract background pattern academic -->
-        <div class="absolute inset-0 z-0 opacity-[0.03] pointer-events-none" style="background-image: radial-gradient(circle at 2px 2px, #4c1d95 1px, transparent 0); background-size: 32px 32px;"></div>
+        <!-- Blurry Background Image -->
+        <div class="absolute inset-0 z-0 overflow-hidden">
+            <img src="{{ asset('images/utp-campus.jpg') }}" class="w-full h-full object-cover blur-md opacity-25 scale-105" alt="Campus UTP">
+            <div class="absolute inset-0 bg-gradient-to-b from-white/40 via-white/60 to-white"></div>
+        </div>
         
         <div class="max-w-7xl mx-auto px-6 py-20 lg:py-28 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
             <div class="space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-700">
