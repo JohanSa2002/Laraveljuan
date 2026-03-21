@@ -4,272 +4,327 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>UTP Académico | Portal de Investigación</title>
 
-    <title>UTP | Trabajos de Graduación y Tesis</title>
-
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;0,800;1,700&display=swap" rel="stylesheet">
 
-    <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="font-sans antialiased bg-gray-50 text-gray-800 min-h-screen overflow-x-hidden selection:bg-purple-900 selection:text-white">
-    <!-- Navbar -->
-    <nav class="bg-white border-b-2 border-purple-900 shadow-sm sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <div class="flex items-center py-2">
-                    <a href="/" class="flex items-center">
-                        <img src="{{ asset('images/utp-logo.png') }}" alt="UTP Logo" class="h-16 w-auto drop-shadow-md">
-                    </a>
-                </div>
+<body class="font-sans antialiased bg-white text-gray-900 selection:bg-purple-900 selection:text-white">
 
-                <div class="flex items-center space-x-4 md:space-x-8 lg:space-x-12">
+    <!-- ─── Navbar ──────────────────────────────────────────────── -->
+    <nav class="bg-purple-950 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex justify-between items-center h-16">
+
+                <a href="/" class="flex items-center gap-3">
+                    <img src="{{ asset('images/utp-logo.png') }}" alt="UTP Logo"
+                         class="h-9 w-auto">
+                    <span class="text-white/80 text-sm font-medium hidden sm:block tracking-wide">
+                        Portal de Investigación
+                    </span>
+                </a>
+
+                <div class="flex items-center gap-3">
                     @if (Route::has('login'))
                         @auth
                             <a href="{{ url('/dashboard') }}"
-                                class="px-6 py-3 bg-purple-900 text-white rounded-xl text-sm font-bold shadow-md hover:bg-purple-800 transition-all">Panel Principal</a>
+                               class="px-4 py-2 bg-white text-purple-950 rounded-lg text-sm font-semibold hover:bg-purple-50 transition-colors">
+                                Panel Principal
+                            </a>
                         @else
-                            <div class="flex items-center space-x-6 md:space-x-10">
-                                <a href="{{ route('login') }}"
-                                    class="text-[15px] font-bold text-gray-700 hover:text-purple-900 transition-colors whitespace-nowrap">Iniciar Sesión</a>
-                                @if (Route::has('register'))
-                                    <a href="{{ route('register') }}"
-                                        class="px-7 py-3 bg-purple-900 text-white rounded-xl text-sm font-bold shadow-md hover:bg-purple-800 transition-all hover:scale-[1.02] whitespace-nowrap">Crear Cuenta</a>
-                                @endif
-                            </div>
+                            <a href="{{ route('login') }}"
+                               class="text-sm text-white/70 hover:text-white transition-colors font-medium">
+                                Iniciar Sesión
+                            </a>
+                            @if (Route::has('register'))
+                                <a href="{{ route('register') }}"
+                                   class="px-4 py-2 bg-white text-purple-950 rounded-lg text-sm font-semibold hover:bg-purple-50 transition-colors">
+                                    Crear Cuenta
+                                </a>
+                            @endif
                         @endauth
                     @endif
                 </div>
+
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <main class="relative bg-white border-b border-gray-200 overflow-hidden">
-        <!-- Option 2: Side Wash Gradient Background -->
-        <div class="absolute inset-0 z-0 bg-white">
-            <img src="{{ asset('images/utp-campus-v2.jpg') }}" class="w-full h-full object-cover" alt="Campus UTP">
-            <!-- 5% global white overlay -->
-            <div class="absolute inset-0 bg-white opacity-5"></div>
-            <!-- Horizontal Gradient Mask (Option 2) -->
-            <div class="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent hidden lg:block"></div>
-            <!-- Mobile overlay (more uniform for small screens) -->
-            <div class="absolute inset-0 bg-white/40 lg:hidden"></div>
-            <!-- Bottom fade for section transition -->
-            <div class="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent"></div>
+    <!-- ─── Hero ─────────────────────────────────────────────────── -->
+    <section class="relative bg-purple-950 overflow-hidden">
+        <!-- Campus image -->
+        <div class="absolute inset-0">
+            <img src="{{ asset('images/utp-campus-v2.jpg') }}"
+                 class="w-full h-full object-cover opacity-50" alt="Campus UTP">
+            <div class="absolute inset-0 bg-gradient-to-r from-purple-950/90 via-purple-950/60 to-purple-950/30"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-transparent to-purple-950/80"></div>
         </div>
-        
-        <div class="max-w-7xl mx-auto px-6 py-24 lg:py-40 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
-            <div class="space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-700">
-                <div class="inline-flex items-center space-x-2 px-3 py-1 bg-white/90 backdrop-blur-md rounded-full border border-purple-200 shadow-sm">
-                    <span class="flex h-2 w-2 rounded-full bg-purple-600 animate-pulse"></span>
-                    <span class="text-xs font-bold text-purple-800 tracking-wider">UNIVERSIDAD TECNOLÓGICA DE PANAMÁ</span>
-                </div>
 
-                <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 leading-[1.1] tracking-tight font-serif" style="font-family: 'Playfair Display', serif;">
-                    Descubre la <br><span class="text-purple-900">Excelencia</span> Académica.
-                </h1>
-
-                <p class="text-lg text-gray-600 max-w-xl leading-relaxed normal-case">
-                    El repositorio central de tesis y trabajos de grado de la UTP. Explora las investigaciones más destacadas contribuyendo al desarrollo científico y tecnológico de Panamá.
+        <div class="relative max-w-7xl mx-auto px-6 py-28 lg:py-44">
+            <div class="max-w-2xl">
+                <p class="text-purple-300 text-xs font-bold tracking-widest uppercase mb-5">
+                    Universidad Tecnológica del Panamá - UTP
                 </p>
-
-                <div class="flex flex-wrap gap-4 pt-4 normal-case">
-                    <a href="#tesis-recientes"
-                        class="px-8 py-4 bg-purple-900 text-white rounded-lg font-bold shadow-lg shadow-purple-900/30 hover:bg-purple-800 hover:-translate-y-0.5 transition-all">
-                        Explorar Investigaciones
+                <h1 class="text-4xl lg:text-[3.5rem] font-bold text-white leading-[1.15] mb-6"
+                    style="font-family: 'Playfair Display', serif;">
+                    Gestión de Investigaciones Académicas
+                </h1>
+                <p class="text-lg text-white/60 leading-relaxed mb-10 max-w-lg">
+                    Plataforma institucional para la presentación, revisión y publicación de artículos y trabajos de investigación científica.
+                </p>
+                <div class="flex flex-wrap gap-3">
+                    <a href="#investigaciones"
+                       class="px-6 py-3 bg-white text-purple-950 rounded-lg text-sm font-semibold hover:bg-purple-50 transition-colors">
+                        Ver Investigaciones
                     </a>
+                    @guest
+                        <a href="{{ route('register') }}"
+                           class="px-6 py-3 border border-white/25 text-white rounded-lg text-sm font-semibold hover:bg-white/10 transition-colors">
+                            Registrarse
+                        </a>
+                    @endguest
                 </div>
-            </div>
-
-            <!-- University Image/Graphic -->
-            <div class="relative hidden lg:block animate-in fade-in zoom-in-95 duration-1000">
-                <div class="relative rounded-2xl overflow-hidden shadow-2xl shadow-purple-900/10 border border-gray-100 bg-white p-2">
-                    <div class="rounded-xl overflow-hidden aspect-[4/3] bg-gray-100 relative group">
-                        <!-- We use an inspirational building or tech image from unsplash -->
-                        <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=1200&auto=format&fit=crop" alt="Campus Universitario" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                        <div class="absolute inset-0 bg-gradient-to-t from-purple-900/80 to-transparent flex items-end p-8">
-                            <div>
-                                <h3 class="text-white font-bold text-2xl normal-case">Innovación y Desarrollo</h3>
-                                <p class="text-purple-100 text-sm mt-2 normal-case">Forjando el futuro tecnológico.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Decorative Elements -->
-                <div class="absolute -bottom-6 -left-6 w-32 h-32 bg-fuchsia-100 rounded-full mix-blend-multiply filter blur-2xl animate-pulse"></div>
-                <div class="absolute -top-6 -right-6 w-32 h-32 bg-purple-200 rounded-full mix-blend-multiply filter blur-2xl animate-pulse delay-1000"></div>
             </div>
         </div>
-    </main>
 
-    <!-- Carousel Section (Approved Theses) -->
-    <section id="tesis-recientes" class="py-24 bg-gray-50 relative">
+        <!-- Bottom fade into white -->
+        <div class="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-white to-transparent"></div>
+    </section>
+
+    <!-- ─── Stats ─────────────────────────────────────────────────── -->
+    <section class="bg-white border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-6 py-14">
+            <dl class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div>
+                    <dt class="text-3xl font-bold text-purple-900">{{ $publishedArticles->count() }}</dt>
+                    <dd class="text-sm text-gray-500 mt-1">Artículos publicados</dd>
+                </div>
+                <div>
+                    <dt class="text-3xl font-bold text-purple-900">{{ $events->count() }}</dt>
+                    <dd class="text-sm text-gray-500 mt-1">Eventos científicos</dd>
+                </div>
+                <div>
+                    <dt class="text-3xl font-bold text-purple-900">100%</dt>
+                    <dd class="text-sm text-gray-500 mt-1">Revisado por asesores</dd>
+                </div>
+                <div>
+                    <dt class="text-3xl font-bold text-purple-900">Abierto</dt>
+                    <dd class="text-sm text-gray-500 mt-1">Acceso institucional</dd>
+                </div>
+            </dl>
+        </div>
+    </section>
+
+    <!-- ─── Investigaciones recientes ────────────────────────────── -->
+    <section id="investigaciones" class="py-24 bg-gray-50">
         <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl font-bold text-purple-900 font-serif" style="font-family: 'Playfair Display', serif;">Últimas Tesis y Trabajos de Grado</h2>
-                <p class="mt-4 text-gray-500 max-w-2xl mx-auto">Explora los proyectos de investigación más recientes aprobados por la academia de la Universidad Tecnológica.</p>
+
+            <div class="mb-14">
+                <h2 class="text-2xl font-bold text-gray-900" style="font-family: 'Playfair Display', serif;">
+                    Investigaciones recientes
+                </h2>
+                <p class="mt-2 text-gray-500 text-sm max-w-xl">
+                    Trabajos de grado e investigaciones aprobadas por la academia de la Universidad Tecnológica del Perú.
+                </p>
             </div>
 
             @if($publishedArticles->count() > 0)
-                <div x-data="{ 
-                        activeSlide: 0, 
+                <div x-data="{
+                        activeSlide: 0,
                         totalSlides: {{ $publishedArticles->count() }},
                         next() { this.activeSlide = (this.activeSlide + 1) % this.totalSlides; },
                         prev() { this.activeSlide = (this.activeSlide - 1 + this.totalSlides) % this.totalSlides; },
                         init() {
-                            if(this.totalSlides > 1) {
-                                setInterval(() => { this.next() }, 6000);
+                            if (this.totalSlides > 1) {
+                                setInterval(() => { this.next() }, 7000);
                             }
                         }
-                    }" 
-                    class="relative max-w-5xl mx-auto">
-                    
-                    <!-- Carousel Wrapper -->
-                    <div class="overflow-hidden relative rounded-2xl shadow-xl bg-white border border-gray-100">
-                        <div class="flex transition-transform duration-500 ease-in-out" :style="'transform: translateX(-' + (activeSlide * 100) + '%)'">
+                    }"
+                    class="relative max-w-4xl">
+
+                    <!-- Slide container -->
+                    <div class="overflow-hidden rounded-2xl bg-white border border-gray-200 shadow-sm">
+                        <div class="flex transition-transform duration-500 ease-in-out"
+                             :style="'transform: translateX(-' + (activeSlide * 100) + '%)'">
+
                             @foreach($publishedArticles as $article)
-                                <div class="w-full flex-shrink-0 relative">
-                                    <div class="grid grid-cols-1 md:grid-cols-5 gap-0">
-                                        <!-- Info Side -->
-                                        <div class="md:col-span-3 p-10 md:p-14 flex flex-col justify-center">
-                                            <div class="flex items-center space-x-2 mb-6">
-                                                <span class="bg-fuchsia-100 text-fuchsia-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                                <div class="w-full flex-shrink-0">
+                                    <div class="grid grid-cols-1 md:grid-cols-5">
+
+                                        <!-- Text side -->
+                                        <div class="md:col-span-3 p-10 lg:p-14 flex flex-col justify-center">
+                                            <div class="flex items-center gap-2 mb-5">
+                                                <span class="bg-purple-100 text-purple-800 text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
                                                     {{ $article->career ?? 'Investigación' }}
                                                 </span>
-                                                <span class="text-sm font-medium text-gray-400">&bull; {{ $article->year ?? date('Y') }}</span>
+                                                <span class="text-sm text-gray-400">{{ $article->year ?? date('Y') }}</span>
                                             </div>
-                                            <h3 class="text-2xl md:text-3xl font-bold text-gray-900 leading-tight font-serif mb-4" style="font-family: 'Playfair Display', serif;">
+
+                                            <h3 class="text-xl lg:text-2xl font-bold text-gray-900 leading-snug mb-6"
+                                                style="font-family: 'Playfair Display', serif;">
                                                 {{ $article->title }}
                                             </h3>
-                                            
-                                            <div class="mt-6 flex items-center bg-gray-50 rounded-lg p-4 border border-gray-100">
-                                                <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center text-purple-700 font-bold text-xl mr-4 flex-shrink-0">
-                                                    {{ substr($article->student->name ?? 'Estudiante', 0, 1) }}
+
+                                            <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl border border-gray-100">
+                                                <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center text-purple-800 font-bold flex-shrink-0">
+                                                    {{ substr($article->student->name ?? 'E', 0, 1) }}
                                                 </div>
                                                 <div>
-                                                    <p class="text-sm text-gray-500">Autor/es</p>
-                                                    <p class="font-bold text-gray-900">{{ $article->student->name ?? 'Estudiante no registrado' }}</p>
-                                                    @if($article->students && $article->students != $article->student->name)
-                                                        <p class="text-xs text-gray-500 mt-0.5">Y otros colaboradores...</p>
+                                                    <p class="text-xs text-gray-400 mb-0.5">Autor/es</p>
+                                                    <p class="text-sm font-semibold text-gray-900">{{ $article->student->name ?? 'Estudiante no registrado' }}</p>
+                                                    @if($article->students && $article->students != ($article->student->name ?? ''))
+                                                        <p class="text-xs text-gray-400 mt-0.5">Y otros colaboradores</p>
                                                     @endif
                                                 </div>
                                             </div>
 
-                                            <div class="mt-8">
-                                                <a href="{{ route('profile.public.show', $article->student->id ?? 1) }}" class="inline-flex items-center font-bold text-purple-700 hover:text-fuchsia-600 transition-colors group">
-                                                    Ver Perfil del Autor
-                                                    <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                                            <div class="mt-7">
+                                                <a href="{{ route('profile.public.show', $article->student->id ?? 1) }}"
+                                                   class="inline-flex items-center gap-2 text-sm font-semibold text-purple-700 hover:text-purple-900 transition-colors group">
+                                                    Ver perfil del autor
+                                                    <svg class="w-4 h-4 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                                                    </svg>
                                                 </a>
                                             </div>
                                         </div>
-                                        
-                                        <!-- Design/Pattern Side -->
-                                        <div class="hidden md:flex md:col-span-2 bg-purple-900 relative overflow-hidden items-center justify-center p-8">
-                                            <div class="absolute inset-0 opacity-20" style="background-image: repeating-linear-gradient(45deg, #A80A81 25%, transparent 25%, transparent 75%, #A80A81 75%, #A80A81), repeating-linear-gradient(45deg, #A80A81 25%, #660066 25%, #660066 75%, #A80A81 75%, #A80A81); background-position: 0 0, 10px 10px; background-size: 20px 20px;"></div>
-                                            <!-- Fake PDF Document visual -->
-                                            <div class="bg-white w-full max-w-[200px] aspect-[1/1.4] rounded shadow-2xl relative z-10 flex flex-col p-4">
-                                                <div class="w-full h-2 bg-gray-200 rounded mb-4"></div>
-                                                <div class="w-3/4 h-2 bg-gray-200 rounded mb-2"></div>
-                                                <div class="w-full h-2 bg-gray-200 rounded mb-2"></div>
-                                                <div class="w-5/6 h-2 bg-gray-200 rounded mb-8"></div>
-                                                
-                                                <div class="w-10 h-10 border-4 border-fuchsia-500 rounded-full mx-auto mt-auto opacity-50"></div>
+
+                                        <!-- Accent side -->
+                                        <div class="hidden md:flex md:col-span-2 bg-purple-950 items-center justify-center p-10 relative overflow-hidden">
+                                            <!-- Subtle grid pattern -->
+                                            <div class="absolute inset-0 opacity-[0.07]"
+                                                 style="background-image: linear-gradient(rgba(255,255,255,.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.5) 1px, transparent 1px); background-size: 24px 24px;">
+                                            </div>
+                                            <!-- Document icon -->
+                                            <div class="relative z-10 flex flex-col items-center gap-4 text-center">
+                                                <div class="w-20 h-20 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center">
+                                                    <svg class="w-10 h-10 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                                    </svg>
+                                                </div>
+                                                <p class="text-white/40 text-xs font-medium tracking-widest uppercase">Investigación</p>
                                             </div>
                                         </div>
+
                                     </div>
                                 </div>
                             @endforeach
+
                         </div>
                     </div>
 
-                    <!-- Navigation Controls -->
+                    <!-- Navigation arrows -->
                     @if($publishedArticles->count() > 1)
-                        <button @click="prev()" class="absolute -left-4 md:-left-6 top-1/2 -translate-y-1/2 w-12 h-12 bg-white rounded-full shadow-lg border border-gray-100 flex items-center justify-center text-purple-900 hover:bg-purple-50 transition-colors z-20 focus:outline-none">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                        <button @click="prev()"
+                                class="absolute -left-5 top-1/2 -translate-y-1/2 w-10 h-10 bg-white rounded-full shadow-md border border-gray-200 flex items-center justify-center text-gray-600 hover:text-purple-900 hover:border-purple-200 transition-colors z-10">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                            </svg>
                         </button>
-                        <button @click="next()" class="absolute -right-4 md:-right-6 top-1/2 -translate-y-1/2 w-12 h-12 bg-white rounded-full shadow-lg border border-gray-100 flex items-center justify-center text-purple-900 hover:bg-purple-50 transition-colors z-20 focus:outline-none">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                        <button @click="next()"
+                                class="absolute -right-5 top-1/2 -translate-y-1/2 w-10 h-10 bg-white rounded-full shadow-md border border-gray-200 flex items-center justify-center text-gray-600 hover:text-purple-900 hover:border-purple-200 transition-colors z-10">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
                         </button>
 
                         <!-- Dots -->
-                        <div class="flex justify-center mt-8 space-x-2">
+                        <div class="flex justify-center mt-6 gap-2">
                             <template x-for="(slide, index) in totalSlides" :key="index">
-                                <button @click="activeSlide = index" 
-                                    :class="{'w-8 bg-purple-900': activeSlide === index, 'w-2 bg-purple-300': activeSlide !== index}" 
-                                    class="h-2 rounded-full transition-all duration-300 focus:outline-none"></button>
+                                <button @click="activeSlide = index"
+                                        :class="activeSlide === index ? 'w-6 bg-purple-900' : 'w-2 bg-gray-300'"
+                                        class="h-2 rounded-full transition-all duration-300">
+                                </button>
                             </template>
                         </div>
                     @endif
+
                 </div>
             @else
-                <!-- Empty State -->
-                <div class="bg-white max-w-3xl mx-auto rounded-2xl p-12 text-center shadow-sm border border-gray-100">
-                    <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                    <h3 class="text-xl font-bold text-gray-900 mb-2">Aún no hay trabajos publicados</h3>
-                    <p class="text-gray-500">Las investigaciones aprobadas aparecerán aquí para que la comunidad pueda consultarlas.</p>
+                <div class="max-w-4xl bg-white rounded-2xl border border-dashed border-gray-200 p-16 text-center">
+                    <svg class="w-12 h-12 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                    <h3 class="text-base font-semibold text-gray-700 mb-1">Sin investigaciones publicadas aún</h3>
+                    <p class="text-sm text-gray-400">Las investigaciones aprobadas aparecerán aquí.</p>
                 </div>
             @endif
+
         </div>
     </section>
 
-    <!-- News & Events -->
-    <section class="py-20 bg-white border-t border-gray-200" x-data="{ 
-        showModal: false, 
-        activeItem: null,
-        openModal(item) {
-            this.activeItem = item;
-            this.showModal = true;
-            document.body.style.overflow = 'hidden';
-        },
-        closeModal() {
-            this.showModal = false;
-            document.body.style.overflow = 'auto';
-        }
-    }">
+    <!-- ─── Actualidad y Eventos ──────────────────────────────────── -->
+    <section class="py-24 bg-white border-t border-gray-100"
+             x-data="{
+                showModal: false,
+                activeItem: null,
+                openModal(item) {
+                    this.activeItem = item;
+                    this.showModal = true;
+                    document.body.style.overflow = 'hidden';
+                },
+                closeModal() {
+                    this.showModal = false;
+                    document.body.style.overflow = 'auto';
+                }
+             }">
         <div class="max-w-7xl mx-auto px-6">
-            <div class="flex justify-between items-end mb-12">
+
+            <div class="flex justify-between items-end mb-14">
                 <div>
-                    <h2 class="text-3xl font-bold text-gray-900 font-serif" style="font-family: 'Playfair Display', serif;">Actualidad y Eventos</h2>
-                    <p class="mt-2 text-gray-500">Mantente al tanto de las últimas noticias, avisos y convocatorias de investigación.</p>
+                    <h2 class="text-2xl font-bold text-gray-900" style="font-family: 'Playfair Display', serif;">
+                        Actualidad y Eventos
+                    </h2>
+                    <p class="mt-2 text-gray-500 text-sm">
+                        Noticias, avisos y convocatorias de la comunidad investigadora.
+                    </p>
                 </div>
-                <a href="{{ route('events.index') }}" class="hidden hover:underline text-purple-700 font-bold text-sm md:block">Ver todos los eventos &rarr;</a>
+                <a href="{{ route('events.index') }}"
+                   class="hidden md:inline-flex items-center gap-1.5 text-sm font-semibold text-purple-700 hover:text-purple-900 transition-colors">
+                    Ver todos los eventos
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                </a>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 @php
-                    // Combine notices and events for a unified feed
                     $feed = collect();
-                    
+
                     foreach($notices as $notice) {
                         $feed->push((object)[
-                            'id' => $notice->id,
-                            'title' => $notice->title,
-                            'summary' => $notice->summary,
-                            'content' => $notice->content,
-                            'image' => $notice->image_path ? Storage::url($notice->image_path) : 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=800&auto=format&fit=crop',
+                            'id'       => $notice->id,
+                            'title'    => $notice->title,
+                            'summary'  => $notice->summary,
+                            'content'  => $notice->content,
+                            'image'    => $notice->image_path
+                                            ? Storage::url($notice->image_path)
+                                            : 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=800&auto=format&fit=crop',
                             'category' => $notice->category,
-                            'date' => $notice->created_at->locale('es')->isoFormat('D [de] MMMM, YYYY'),
+                            'date'     => $notice->created_at->locale('es')->isoFormat('D [de] MMMM, YYYY'),
                             'raw_date' => $notice->created_at,
-                            'is_event' => false
+                            'is_event' => false,
                         ]);
                     }
 
                     foreach($events as $event) {
                         $feed->push((object)[
-                            'id' => $event->id,
-                            'title' => $event->name,
-                            'summary' => $event->description,
-                            'content' => $event->description, // Events use description for both
-                            'image' => $event->image_path ? Storage::url($event->image_path) : 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=800&auto=format&fit=crop',
+                            'id'       => $event->id,
+                            'title'    => $event->name,
+                            'summary'  => $event->description,
+                            'content'  => $event->description,
+                            'image'    => $event->image_path
+                                            ? Storage::url($event->image_path)
+                                            : 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=800&auto=format&fit=crop',
                             'category' => 'Evento',
-                            'date' => $event->created_at->locale('es')->isoFormat('D [de] MMMM, YYYY'),
+                            'date'     => $event->created_at->locale('es')->isoFormat('D [de] MMMM, YYYY'),
                             'raw_date' => $event->created_at,
-                            'is_event' => true
+                            'is_event' => true,
                         ]);
                     }
 
@@ -277,126 +332,148 @@
                 @endphp
 
                 @forelse($feed as $item)
-                    <!-- Feed Card -->
-                    <div class="group cursor-pointer" @click="openModal({{ json_encode($item) }})">
-                        <div class="bg-gray-100 aspect-video rounded-xl overflow-hidden mb-4 relative shadow-sm">
-                            <img src="{{ $item->image }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="{{ $item->title }}">
-                            
-                            <div class="absolute inset-0 bg-black bg-opacity-10 group-hover:bg-opacity-0 transition-all"></div>
-                            
+                    <article class="group cursor-pointer" @click="openModal({{ json_encode($item) }})">
+                        <!-- Thumbnail -->
+                        <div class="aspect-video rounded-xl overflow-hidden bg-gray-100 mb-4 relative">
+                            <img src="{{ $item->image }}"
+                                 class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
+                                 alt="{{ $item->title }}" loading="lazy">
                             @php
-                                $badgeColor = 'bg-fuchsia-600';
-                                if($item->category == 'Aviso') $badgeColor = 'bg-blue-600';
-                                elseif($item->category == 'Investigación') $badgeColor = 'bg-purple-900';
-                                elseif($item->is_event) $badgeColor = 'bg-cyber-purple-600';
+                                $badge = match(true) {
+                                    $item->is_event => 'bg-purple-900',
+                                    $item->category === 'Aviso' => 'bg-blue-700',
+                                    $item->category === 'Investigación' => 'bg-purple-700',
+                                    default => 'bg-gray-700',
+                                };
                             @endphp
-                            <div class="absolute top-4 left-4 {{ $badgeColor }} text-white text-[10px] uppercase tracking-widest font-black px-3 py-1 rounded-lg shadow-lg">{{ $item->category }}</div>
+                            <span class="absolute top-3 left-3 {{ $badge }} text-white text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-md">
+                                {{ $item->category }}
+                            </span>
                         </div>
-                        <p class="text-xs font-bold text-purple-700 mb-2 tracking-tighter">{{ $item->date }}</p>
-                        <h3 class="text-xl font-bold text-gray-900 group-hover:text-purple-700 transition-colors line-clamp-2 leading-tight">{{ $item->title }}</h3>
+
+                        <!-- Text -->
+                        <p class="text-xs text-gray-400 font-medium mb-1.5">{{ $item->date }}</p>
+                        <h3 class="text-base font-bold text-gray-900 leading-snug group-hover:text-purple-800 transition-colors line-clamp-2">
+                            {{ $item->title }}
+                        </h3>
                         @if($item->summary)
-                            <p class="text-gray-500 text-sm mt-2 line-clamp-2 leading-relaxed">{{ $item->summary }}</p>
+                            <p class="text-sm text-gray-500 mt-1.5 line-clamp-2 leading-relaxed">
+                                {{ $item->summary }}
+                            </p>
                         @endif
-                    </div>
+                    </article>
                 @empty
-                    <div class="col-span-3 text-center py-12 text-gray-500 bg-gray-50 rounded-3xl border-2 border-dashed border-gray-200">
-                        <svg class="w-12 h-12 text-gray-300 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path></svg>
-                        <p class="font-medium tracking-tight">No hay actualizaciones recientes publicadas.</p>
+                    <div class="col-span-3 text-center py-16 border border-dashed border-gray-200 rounded-2xl">
+                        <svg class="w-10 h-10 text-gray-300 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
+                        </svg>
+                        <p class="text-sm text-gray-400 font-medium">No hay actualizaciones publicadas aún.</p>
                     </div>
                 @endforelse
             </div>
+
         </div>
 
-        <!-- Modal Overlay -->
+        <!-- ─── Modal ───────────────────────────────────────────── -->
         <template x-if="showModal">
-            <div class="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
+            <div class="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6"
+                 x-transition:enter="transition ease-out duration-200"
+                 x-transition:enter-start="opacity-0"
+                 x-transition:enter-end="opacity-100">
+
                 <!-- Backdrop -->
-                <div class="absolute inset-0 bg-cyber-dark-900/80 backdrop-blur-sm" @click="closeModal()"></div>
-                
-                <!-- Modal Content -->
-                <div class="bg-white w-full max-w-4xl max-h-[90vh] rounded-[2.5rem] shadow-2xl relative z-10 overflow-hidden flex flex-col" 
-                     x-transition:enter="transition ease-out duration-300" 
-                     x-transition:enter-start="opacity-0 scale-95 translate-y-4" 
-                     x-transition:enter-end="opacity-100 scale-100 translate-y-0">
-                    
-                    <!-- Close Button -->
-                    <button @click="closeModal()" class="absolute top-6 right-6 z-20 bg-white/20 hover:bg-white/40 backdrop-blur-md p-2 rounded-full text-white transition-all">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                <div class="absolute inset-0 bg-gray-900/70 backdrop-blur-sm" @click="closeModal()"></div>
+
+                <!-- Panel -->
+                <div class="bg-white w-full max-w-3xl max-h-[90vh] rounded-2xl shadow-2xl relative z-10 overflow-hidden flex flex-col"
+                     x-transition:enter="transition ease-out duration-200"
+                     x-transition:enter-start="opacity-0 scale-95"
+                     x-transition:enter-end="opacity-100 scale-100">
+
+                    <!-- Close button -->
+                    <button @click="closeModal()"
+                            class="absolute top-4 right-4 z-20 w-9 h-9 bg-black/20 hover:bg-black/30 backdrop-blur-sm rounded-full flex items-center justify-center text-white transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
                     </button>
 
-                    <!-- Scrollable Area -->
                     <div class="overflow-y-auto flex-grow">
-                        <!-- Image Header -->
-                        <div class="w-full h-64 sm:h-80 relative">
+                        <!-- Image header -->
+                        <div class="w-full h-56 sm:h-72 relative flex-shrink-0">
                             <img :src="activeItem.image" class="w-full h-full object-cover" :alt="activeItem.title">
-                            <div class="absolute inset-0 bg-gradient-to-t from-white via-transparent to-black/20"></div>
-                            
-                            <div class="absolute bottom-12 left-8 sm:left-12 z-20">
-                                <span x-text="activeItem.category" 
-                                      :class="{
-                                          'bg-blue-600': activeItem.category === 'Aviso',
-                                          'bg-purple-900': activeItem.category === 'Investigación',
-                                          'bg-cyber-purple-600': activeItem.is_event,
-                                          'bg-fuchsia-600': !activeItem.is_event && activeItem.category !== 'Aviso' && activeItem.category !== 'Investigación'
-                                      }"
-                                      class="text-white text-[10px] uppercase tracking-widest font-black px-4 py-1.5 rounded-full shadow-lg"></span>
-                            </div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                         </div>
 
-                        <!-- Text content -->
-                        <div class="p-8 sm:p-12 -mt-8 bg-white relative rounded-t-[3rem]">
-                            <p class="text-cyber-purple-600 font-bold tracking-widest text-xs uppercase mb-4" x-text="activeItem.date"></p>
-                            <h2 class="text-3xl sm:text-4xl font-black text-gray-900 leading-tight mb-8" x-text="activeItem.title"></h2>
-                            
-                            <div class="prose prose-purple max-w-none">
-                                <div class="text-gray-600 text-lg leading-relaxed whitespace-pre-line font-medium" x-text="activeItem.content || activeItem.summary"></div>
-                            </div>
+                        <!-- Content -->
+                        <div class="p-8 sm:p-10">
+                            <p class="text-xs text-purple-700 font-bold uppercase tracking-widest mb-2"
+                               x-text="activeItem.category + ' · ' + activeItem.date"></p>
+                            <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 leading-snug mb-6"
+                                x-text="activeItem.title"
+                                style="font-family: 'Playfair Display', serif;"></h2>
+
+                            <div class="text-gray-600 text-base leading-relaxed whitespace-pre-line"
+                                 x-text="activeItem.content || activeItem.summary"></div>
 
                             <template x-if="activeItem.is_event">
-                                <div class="mt-12 pt-8 border-t border-gray-100 flex justify-center">
-                                    <a href="{{ route('events.index') }}" class="px-8 py-4 bg-cyber-purple-600 text-white rounded-2xl font-black uppercase tracking-widest text-xs shadow-xl shadow-cyber-purple-500/20 hover:scale-105 transition-all">
-                                        Explorar Todos los Eventos
+                                <div class="mt-10 pt-6 border-t border-gray-100">
+                                    <a href="{{ route('events.index') }}"
+                                       class="inline-flex items-center gap-2 px-5 py-2.5 bg-purple-900 text-white rounded-lg text-sm font-semibold hover:bg-purple-800 transition-colors">
+                                        Ver todos los eventos
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                        </svg>
                                     </a>
                                 </div>
                             </template>
                         </div>
                     </div>
+
                 </div>
             </div>
         </template>
+
     </section>
 
-    <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-12 border-t-4 border-fuchsia-600">
-        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div class="col-span-1 md:col-span-2">
-                <span class="text-2xl font-bold tracking-tight mb-4 block">UTP<span class="text-purple-400">_Investigación</span></span>
-                <p class="text-gray-400 max-w-sm text-sm">
-                    Plataforma oficial para la gestión, revisión y publicación de trabajos de grado de la Universidad Tecnológica de Panamá.
-                </p>
+    <!-- ─── Footer ──────────────────────────────────────────────── -->
+    <footer class="bg-gray-950 text-white">
+        <div class="max-w-7xl mx-auto px-6 py-16">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10">
+
+                <div class="md:col-span-2">
+                    <p class="text-white font-bold text-lg mb-3">UTP <span class="text-purple-400">Académico</span></p>
+                    <p class="text-gray-400 text-sm leading-relaxed max-w-xs">
+                        Plataforma oficial para la gestión, revisión y publicación de trabajos de grado de la Universidad Tecnológica del Perú.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-semibold text-gray-300 mb-4">Accesos</h4>
+                    <ul class="space-y-2 text-sm text-gray-500">
+                        <li><a href="#" class="hover:text-white transition-colors">Portal UTP</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Biblioteca Institucional</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Formatos de Tesis</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-semibold text-gray-300 mb-4">Soporte</h4>
+                    <ul class="space-y-2 text-sm text-gray-500">
+                        <li><a href="#" class="hover:text-white transition-colors">Mesa de Ayuda</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Preguntas Frecuentes</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Contacto</a></li>
+                    </ul>
+                </div>
+
             </div>
-            <div>
-                <h4 class="font-bold mb-4 text-gray-200">Enlaces Rápidos</h4>
-                <ul class="space-y-2 text-sm text-gray-400">
-                    <li><a href="#" class="hover:text-white transition-colors">Portal UTP</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">Biblioteca Institucional</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">Formatos de Tesis</a></li>
-                </ul>
+
+            <div class="mt-12 pt-8 border-t border-gray-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 text-xs text-gray-600">
+                <p>&copy; {{ date('Y') }} Universidad Tecnológica del Perú. Todos los derechos reservados.</p>
+                <p>Vía Simón Bolívar (Transístmica) — Campus Víctor Levi Sasso</p>
             </div>
-            <div>
-                <h4 class="font-bold mb-4 text-gray-200">Soporte</h4>
-                <ul class="space-y-2 text-sm text-gray-400">
-                    <li><a href="#" class="hover:text-white transition-colors">Mesa de Ayuda</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">Preguntas Frecuentes</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">Contacto</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="max-w-7xl mx-auto px-6 mt-12 pt-8 border-t border-gray-800 text-sm text-gray-500 flex flex-col md:flex-row justify-between items-center">
-            <p>&copy; {{ date('Y') }} Universidad Tecnológica de Panamá. Todos los derechos reservados.</p>
-            <p class="mt-2 md:mt-0">Vía Simón Bolívar (Transístmica) - Campus Víctor Levi Sasso</p>
         </div>
     </footer>
-</body>
 
+</body>
 </html>
